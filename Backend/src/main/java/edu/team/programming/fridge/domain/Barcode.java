@@ -4,13 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@AllArgsConstructor
 @Getter
-@Document(collection="users")
-public class User {
+@AllArgsConstructor
+@Document(collection = "barcodes")
+public class Barcode {
     private String id;
     private String name;
-    private String password;
-    private String fridge_id;
-    private String country;
+    private String type;
+    private String barcode;
 }

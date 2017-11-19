@@ -12,7 +12,7 @@ public class CameraController {
 
     @RequestMapping(value="/product", method= RequestMethod.PUT)
     public Product putProduct(@RequestBody String barCode){
-        return new Product(barCode, "mleko");
+        return new Product(barCode, "mleko","mleko","00000000",null,null,null,null);
     }
 
 }

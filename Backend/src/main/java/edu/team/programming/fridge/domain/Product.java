@@ -1,6 +1,5 @@
 package edu.team.programming.fridge.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,6 +17,7 @@ public class Product {
     private String fridge_id;
     private String barcode;
     private Date adding_date;
+    @Setter
     private Date opening_date;
     @Setter
     private Date removing_date;

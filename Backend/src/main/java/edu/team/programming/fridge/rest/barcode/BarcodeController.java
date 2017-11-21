@@ -17,5 +17,7 @@ public class BarcodeController {
     private BarcodeRepository barcodeRepository;
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public List<Barcode> getAllBarcodes(){return barcodeRepository.findAll();}
+    public List<Barcode> getAllBarcodes(){
+        return barcodeRepository.findAll();
+    }
 }

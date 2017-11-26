@@ -11,6 +11,6 @@ public class User {
     private String id;
     private String name;
     private String password;
-    private String fridge_id;
+    private String fridgeid;
     private String country;
 }

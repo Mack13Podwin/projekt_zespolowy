@@ -27,7 +27,7 @@ public class CameraController {
     @RequestMapping(value="/product", method= RequestMethod.PUT)
     public Barcode putProduct(@RequestBody String barCode){
         Barcode b=barcodeRepository.findByBarcode(barCode);
-        Product p=Product.builder().name(b.getName()).type(b.getType()).fridge_id("19403204").barcode(barCode).adding_date(new Date()).build();
+        Product p=Product.builder().name(b.getName()).type(b.getType()).fridgeid("19403204").barcode(barCode).addingdate(new Date()).build();
         productRepository.save(p);
         return b;
     }
@@ -36,9 +36,9 @@ public class CameraController {
     public void removeProduct(@RequestBody String barCode){
         List<Product> products=productRepository.findByBarcode(barCode);
         if(!products.isEmpty()){
-            products.sort(Comparator.comparing(Product::getAdding_date));
+            products.sort(Comparator.comparing(Product::getAddingdate));
             Product product=products.get(0);
-            product.setRemoving_date(new Date());
+            product.setRemovingdate(new Date());
         }
     }
 

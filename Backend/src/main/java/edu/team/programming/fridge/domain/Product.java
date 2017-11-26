@@ -14,12 +14,12 @@ public class Product {
     private String id;
     private String name;
     private String type;
-    private String fridge_id;
+    private String fridgeid;
     private String barcode;
-    private Date adding_date;
+    private Date addingdate;
     @Setter
-    private Date opening_date;
+    private Date openingdate;
     @Setter
-    private Date removing_date;
-    private Date expiration_date;
+    private Date removingdate;
+    private Date expirationdate;
 }

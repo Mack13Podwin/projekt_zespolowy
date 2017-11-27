@@ -5,9 +5,9 @@
         .module('app.home')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject=['$scope', '$http'];
+    HomeController.$inject=['$scope', '$http', 'userService'];
 
-    function HomeController($scope, $http){
+    function HomeController($scope, $http, userService){
         var vm=this;
         vm.user={};
         vm.submit=submit;
@@ -21,6 +21,8 @@
             $http.post('/backend/users/login', {"login": vm.user.login, "password": vm.user.password})
                 .then(function(response){
                     console.log(response.data);
+                    var fridgeId=response.data.fridgeid;
+                    userService.setCurrentFridgeId(fridgeId);
                 }).catch(function(err){
                     console.log(err);
                 })

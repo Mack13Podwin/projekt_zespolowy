@@ -9,13 +9,21 @@
                           <tr>
                             <th scope="col">#</th>
                             <th scope="col">Item</th>
+                            <th scope="col">Adding Date</th>
                             <th scope="col">Opening Date</th>
                             <th scope="col">Expiration Date</th>
-                            <th scope="col">State</th>
+                            <!--<th scope="col">State</th>-->
                           </tr>
                         </thead>
-                        <tbody>
+                        <tbody ng-repeat="item in vm.fridgeItems">
                           <tr class="active">
+                            <th scope="row">{{$index+1}}</th>
+                            <td>{{item.name}}</td>
+                            <td>{{item.addingdate}}</td>
+                            <td>{{item.openingdate ? item.openingdate : '-'}}</td>
+                            <td>{{item.expirationdate}}</td>
+                          </tr>
+                          <!--<tr class="active">
                             <th scope="row">1</th>
                             <td>Cheese</td>
                             <td>16.11.2017</td>
@@ -42,7 +50,7 @@
                             <td>18.11.2017</td>
                             <td>23.11.2017</td>
                             <td>Used 6 times</td>
-                            </tr>
+                            </tr>-->
                             
                         </tbody>
                       </table>

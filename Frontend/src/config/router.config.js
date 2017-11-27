@@ -15,6 +15,8 @@
             })
             .when('/fridgeItems', {
                 templateUrl: 'src/fridgeItems/fridgeItems.html',
+                controller: 'FridgeItemsController',
+                controllerAs: 'vm'
             })
             .when('/shoppingList', {
                 templateUrl: 'src/shoppingList/shoppingList.html',

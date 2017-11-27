@@ -14,9 +14,9 @@
   <link rel="import" href="src/suggestedRecipe/suggestedRecipe.html">
 </head>
 
-<body ng-app="app" class="background">
+<body ng-app="app" ng-controller="MainController as vm" class="background">
 
-  <nav class="navbar fixed-top navbar-expand-lg navbar-inverse bg-dark" role="navigation">
+  <nav ng-show="vm.loggedIn()" class="navbar fixed-top navbar-expand-lg navbar-inverse bg-dark" role="navigation">
     <div class="container-fluid">
       <a class="navbar-brand" href="index.html">HOME</a>
       <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbarResponsive">
@@ -57,15 +57,24 @@
 <script src="node_modules/angular-route/angular-route.min.js"></script>
 <!--moduł app-->
 <script src="src/app.js"></script>
+<script src="src/main.controller.js"></script>
 
 <!--routing-->
 <script src="src/config/router.config.js"></script>
 
 <script src="src/home/home.module.js"></script>
 <script src="src/home/home.controller.js"></script>
+
+<!--fridge items-->
 <script src="src/fridgeItems/fridgeItems.module.js"></script>
+<script src="src/fridgeItems/fridgeItems.service.js"></script>
+<script src="src/fridgeItems/fridgeItems.controller.js"></script>
+
 <script src="src/shoppingList/shoppingList.module.js"></script>
 <script src="src/suggestedRecipe/suggestedRecipe.module.js"></script>
+
+<script src="src/user/user.module.js"></script>
+<script src="src/user/user.service.js"></script>
 
 </body>
 </html>

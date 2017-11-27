@@ -27,7 +27,7 @@ public class CameraController {
     @RequestMapping(value="/product", method= RequestMethod.PUT)
     public Barcode putProduct(@RequestBody String barCode){
         Barcode b=barcodeRepository.findByBarcode(barCode);
-        Product p=Product.builder().name(b.getName()).type(b.getType()).fridgeid("19403204").barcode(barCode).addingdate(new Date()).build();
+        Product p=Product.builder().name(b.getName()).type(b.getType()).fridgeid("00000000").barcode(barCode).addingdate(new Date()).build();
         productRepository.save(p);
         return b;
     }

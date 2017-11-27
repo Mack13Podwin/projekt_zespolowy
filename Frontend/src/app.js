@@ -3,5 +3,9 @@
 
     angular
         .module('app', ['ngRoute',
-            'app.home','app.fridgeItems','app.shoppingList', 'app.suggestedRecipe']);
+            'app.home',
+            'app.user',
+            'app.fridgeItems',
+            'app.shoppingList',
+            'app.suggestedRecipe']);
 })();

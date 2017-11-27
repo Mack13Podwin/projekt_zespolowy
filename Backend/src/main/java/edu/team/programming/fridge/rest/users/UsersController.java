@@ -19,14 +19,13 @@ public class UsersController {
     private UsersRepository usersRepository;
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String login(@RequestBody User loggingUser){
-        System.out.println(loggingUser.toString());
+    public edu.team.programming.fridge.domain.User login(@RequestBody User loggingUser){
         edu.team.programming.fridge.domain.User user=usersRepository.findByName(loggingUser.getLogin());
         if(user.getPassword().equals(loggingUser.getPassword())){
-            return user.getFridgeid();
+            return user;
         }else{
             ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-            return "";
+            return null;
         }
     }
 }

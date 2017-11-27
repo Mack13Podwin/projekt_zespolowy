@@ -10,6 +10,8 @@
         $routeProvider
             .when('/home', {
                 templateUrl: 'src/home/home.html',
+                controller: 'HomeController',
+                controllerAs: 'vm'
             })
             .when('/fridgeItems', {
                 templateUrl: 'src/fridgeItems/fridgeItems.html',

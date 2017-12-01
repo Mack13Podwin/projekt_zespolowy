@@ -1,9 +1,11 @@
 package edu.team.programming.fridge.rest.ui;
 
+import edu.team.programming.fridge.ai.RatingCalculator;
 import edu.team.programming.fridge.domain.Product;
 import edu.team.programming.fridge.infrastructure.db.ProductRepository;
+import edu.team.programming.fridge.infrastructure.db.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,18 +19,23 @@ public class UIController {
     @Autowired
     private ProductRepository productRepository;
 
-    @RequestMapping(value = "/inside", method = RequestMethod.GET)
-    public List<Product> getProductsInFridge(@RequestBody String fridgeId){
+    @Autowired
+    private RatingCalculator ratingCalculator;
+
+    @RequestMapping(value = "/inside/{fridgeId}", method = RequestMethod.GET)
+    public List<Product> getProductsInFridge(@PathVariable String fridgeId){
+        System.out.println("Getting products from fridge "+fridgeId);
         return productRepository.findByFridgeidAndRemovingdateIsNull(fridgeId);
     }
 
-    @RequestMapping(value = "/shoppinglist", method = RequestMethod.GET)
-    public List<Product> getShoppingList(@RequestBody String fridgeId){
+    @RequestMapping(value = "/shoppinglist/{fridgeId}", method = RequestMethod.GET)
+    public List<Product> getShoppingList(@PathVariable String fridgeId){
+        ratingCalculator.run();
         return productRepository.findByRemovingdateBeforeAndFridgeid(new Date(),fridgeId);
     }
 
-    @RequestMapping(value = "/expired", method=RequestMethod.GET)
-    public List<Product> getExpired(@RequestBody String fridgeId){
+    @RequestMapping(value = "/expired/{fridgeId}", method=RequestMethod.POST)
+    public List<Product> getExpired(@PathVariable String fridgeId){
         return productRepository.findByFridgeidAndExpirationdateBeforeAndRemovingdateNotNull(fridgeId,new Date());
     }
 }

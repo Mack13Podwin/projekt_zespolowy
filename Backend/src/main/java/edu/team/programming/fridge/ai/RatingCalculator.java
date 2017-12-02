@@ -4,6 +4,7 @@ import edu.team.programming.fridge.domain.Product;
 import edu.team.programming.fridge.domain.Rating;
 import edu.team.programming.fridge.domain.User;
 import edu.team.programming.fridge.infrastructure.db.ProductRepository;
+import edu.team.programming.fridge.infrastructure.db.RatingsRepository;
 import edu.team.programming.fridge.infrastructure.db.UsersRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ public class RatingCalculator implements Runnable{
     private ProductRepository productRepository;
     @Autowired
     private UsersRepository usersRepository;
+    @Autowired
+    private RatingsRepository ratingsRepository;
 
     @Override
     public void run() {
@@ -45,7 +48,7 @@ public class RatingCalculator implements Runnable{
                 for(String type:productMap.keySet()){
                     double rating=(double)productMap.get(type)/max;
                     Rating r=Rating.builder().fridgeid(fridgeid).type(type).rating(rating).build();
-                    System.out.println(r.getType()+" "+r.getRating());
+                    ratingsRepository.save(r);
                 }
             }
         }

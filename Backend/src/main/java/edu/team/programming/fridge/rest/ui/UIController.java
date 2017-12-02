@@ -2,7 +2,9 @@ package edu.team.programming.fridge.rest.ui;
 
 import edu.team.programming.fridge.ai.RatingCalculator;
 import edu.team.programming.fridge.domain.Product;
+import edu.team.programming.fridge.domain.RatingAverage;
 import edu.team.programming.fridge.infrastructure.db.ProductRepository;
+import edu.team.programming.fridge.infrastructure.db.RatingsRepository;
 import edu.team.programming.fridge.infrastructure.db.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +24,9 @@ public class UIController {
     @Autowired
     private RatingCalculator ratingCalculator;
 
+    @Autowired
+    private RatingsRepository ratingsRepository;
+
     @RequestMapping(value = "/inside/{fridgeId}", method = RequestMethod.GET)
     public List<Product> getProductsInFridge(@PathVariable String fridgeId){
         System.out.println("Getting products from fridge "+fridgeId);
@@ -29,9 +34,9 @@ public class UIController {
     }
 
     @RequestMapping(value = "/shoppinglist/{fridgeId}", method = RequestMethod.GET)
-    public List<Product> getShoppingList(@PathVariable String fridgeId){
+    public List<RatingAverage> getShoppingList(@PathVariable String fridgeId){
         ratingCalculator.run();
-        return productRepository.findByRemovingdateBeforeAndFridgeid(new Date(),fridgeId);
+        return ratingsRepository.aggregate(fridgeId);
     }
 
     @RequestMapping(value = "/expired/{fridgeId}", method=RequestMethod.POST)

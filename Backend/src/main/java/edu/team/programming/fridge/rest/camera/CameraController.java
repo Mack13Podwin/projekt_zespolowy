@@ -39,6 +39,8 @@ public class CameraController {
             products.sort(Comparator.comparing(Product::getAddingdate));
             Product product=products.get(0);
             product.setRemovingdate(new Date());
+            productRepository.delete(product.getId());
+            productRepository.save(product);
         }
     }
 

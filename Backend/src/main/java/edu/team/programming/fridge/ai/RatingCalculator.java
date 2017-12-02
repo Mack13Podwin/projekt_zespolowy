@@ -1,6 +1,7 @@
 package edu.team.programming.fridge.ai;
 
 import edu.team.programming.fridge.domain.Product;
+import edu.team.programming.fridge.domain.Rating;
 import edu.team.programming.fridge.domain.User;
 import edu.team.programming.fridge.infrastructure.db.ProductRepository;
 import edu.team.programming.fridge.infrastructure.db.UsersRepository;
@@ -41,17 +42,11 @@ public class RatingCalculator implements Runnable{
             }
             if(productMap.values().size()>0){
                 long max= Collections.max(productMap.values());
-                HashMap<String,Double> ratingMap=new HashMap<>();
                 for(String type:productMap.keySet()){
                     double rating=(double)productMap.get(type)/max;
-                    ratingMap.put(type,rating);
+                    Rating r=Rating.builder().fridgeid(fridgeid).type(type).rating(rating).build();
+                    System.out.println(r.getType()+" "+r.getRating());
                 }
-                List<Product> inFridge=productRepository.findByFridgeidAndRemovingdateIsNull(fridgeid);
-                for(Product product:inFridge){
-                    if(ratingMap.get(product.getType())!=null)
-                        ratingMap.remove(product.getType());
-                }
-                System.out.println(ratingMap);
             }
         }
     }

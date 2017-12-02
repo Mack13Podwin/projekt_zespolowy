@@ -46,6 +46,11 @@ public class RatingCalculator implements Runnable{
                     double rating=(double)productMap.get(type)/max;
                     ratingMap.put(type,rating);
                 }
+                List<Product> inFridge=productRepository.findByFridgeidAndRemovingdateIsNull(fridgeid);
+                for(Product product:inFridge){
+                    if(ratingMap.get(product.getType())!=null)
+                        ratingMap.remove(product.getType());
+                }
                 System.out.println(ratingMap);
             }
         }

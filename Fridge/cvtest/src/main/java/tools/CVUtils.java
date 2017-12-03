@@ -1,3 +1,6 @@
+package tools;
+
+import javafx.scene.image.Image;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
 import org.opencv.core.Point;
@@ -62,7 +65,11 @@ public class CVUtils {
         matOfByte.release();
         return bufImage;
     }
-
+    public static Image MatToFXImage(Mat mat){
+        MatOfByte byteMat = new MatOfByte();
+        Imgcodecs.imencode(".bmp", mat, byteMat);
+        return new Image(new ByteArrayInputStream(byteMat.toArray()));
+    }
     /**
      * returns image as mat, remember to release mat
      * @param filename path to file to read

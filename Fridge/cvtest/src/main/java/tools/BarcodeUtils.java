@@ -1,3 +1,5 @@
+package tools;
+
 import com.google.zxing.*;
 import com.google.zxing.common.HybridBinarizer;
 

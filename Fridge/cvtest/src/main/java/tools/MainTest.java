@@ -1,8 +1,11 @@
+package tools;
+
 import org.opencv.core.*;
+import tools.BarcodeUtils;
+import tools.CVUtils;
+import tools.Camera;
 
 import java.awt.image.BufferedImage;
-import java.util.*;
-import java.util.stream.Collectors;
 
 public class MainTest {
     public static void main(String[] args) throws InterruptedException {

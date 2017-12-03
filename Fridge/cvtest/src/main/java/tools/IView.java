@@ -1,3 +1,5 @@
+package tools;
+
 public interface IView {
     void setCurrentCode(String currentCode);
     void setLastCode(String lastCode);

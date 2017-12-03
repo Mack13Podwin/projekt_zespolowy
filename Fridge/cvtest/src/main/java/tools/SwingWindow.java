@@ -1,7 +1,11 @@
+package tools;
+
+import tools.IView;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-public class SwingWindow extends JFrame implements IView{
+public class SwingWindow extends JFrame implements IView {
     JLabel label;
     JLabel codeLabel;
     JLabel lastCodeLabel;

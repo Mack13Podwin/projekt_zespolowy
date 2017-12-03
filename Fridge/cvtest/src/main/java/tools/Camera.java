@@ -1,3 +1,5 @@
+package tools;
+
 import org.opencv.core.Mat;
 import org.opencv.videoio.VideoCapture;
 
@@ -19,11 +21,11 @@ public class Camera {
         capture = new VideoCapture(cameraNumber);
         if (!capture.isOpened()) {
             capture.release();
-            System.out.println("Camera " + cameraNumber + "  Error");
+            System.out.println("tools.Camera " + cameraNumber + "  Error");
             isCorrectlyOpened = false;
             //createErrorImage();
         } else {
-            System.out.println("Camera " + cameraNumber + " probably OK");
+            System.out.println("tools.Camera " + cameraNumber + " probably OK");
             isCorrectlyOpened = true;
         }
 

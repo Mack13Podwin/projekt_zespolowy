@@ -2,10 +2,10 @@ package edu.team.programming.fridge.rest.ui;
 
 import edu.team.programming.fridge.ai.RatingCalculator;
 import edu.team.programming.fridge.domain.Product;
+import edu.team.programming.fridge.domain.Rating;
 import edu.team.programming.fridge.domain.RatingAverage;
 import edu.team.programming.fridge.infrastructure.db.ProductRepository;
 import edu.team.programming.fridge.infrastructure.db.RatingsRepository;
-import edu.team.programming.fridge.infrastructure.db.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,9 +34,16 @@ public class UIController {
     }
 
     @RequestMapping(value = "/shoppinglist/{fridgeId}", method = RequestMethod.GET)
-    public List<RatingAverage> getShoppingList(@PathVariable String fridgeId){
-        ratingCalculator.run();
-        return ratingsRepository.aggregate(fridgeId);
+    public List<Rating> getShoppingList(@PathVariable String fridgeId){
+        Thread calc=new Thread(ratingCalculator);
+        calc.start();
+        try {
+            calc.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        RatingAverage average=ratingsRepository.aggregate(fridgeId).get(0);
+        return ratingsRepository.findByFridgeidAndRatingGreaterThanEqual(fridgeId,average.getAverage());
     }
 
     @RequestMapping(value = "/expired/{fridgeId}", method=RequestMethod.POST)

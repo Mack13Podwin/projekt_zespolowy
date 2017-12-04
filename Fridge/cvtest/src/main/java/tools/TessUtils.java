@@ -2,19 +2,30 @@ package tools;
 
 
 
+import com.sun.jna.Pointer;
+import net.sourceforge.tess4j.ITessAPI;
+import net.sourceforge.tess4j.ITesseract;
+import net.sourceforge.tess4j.TessAPI1;
+import net.sourceforge.tess4j.util.ImageIOHelper;
+
 import java.awt.image.BufferedImage;
+import java.nio.ByteBuffer;
 import java.nio.file.Paths;
 
 public class TessUtils {
     private ITesseract instance;
-    public TessUtils(){
-        ITessAPI.TessBaseAPI handle = TessAPI1.TessBaseAPICreate();
+    ITessAPI.TessBaseAPI handle;
+
+    public TessUtils() {
+
+        handle = TessAPI1.TessBaseAPICreate();
         String datapath = Paths.get("tessdata").toAbsolutePath().toString();
         String language = "bpd+dotc+dots+hydro+jd+eng";
         TessAPI1.TessBaseAPIInit3(handle, datapath, language);
         TessAPI1.TessBaseAPISetVariable(handle, "tessedit_char_whitelist", "0123456789-/.");
     }
-    String[][] getAllChoices(BufferedImage image){
+
+    String[][] getAllChoices(BufferedImage image) {
         ByteBuffer buf = ImageIOHelper.convertImageData(image);
         int bpp = image.getColorModel().getPixelSize();
         int bytespp = bpp / 8;
@@ -42,15 +53,17 @@ public class TessUtils {
                         symbols[i][j] = choice;
                         confidences[i][j] = TessAPI1.TessChoiceIteratorConfidence(ci);
                         j++;
-                        if(jmax<j)
-                            jmax=j;
+                        if (jmax < j)
+                            jmax = j;
                     } while (TessAPI1.TessChoiceIteratorNext(ci) == ITessAPI.TRUE);
                     TessAPI1.TessChoiceIteratorDelete(ci);
                 }
                 i++;
-                j=0;
+                j = 0;
                 TessAPI1.TessDeleteText(symbol);
             } while (TessAPI1.TessResultIteratorNext(ri, level) == ITessAPI.TRUE);
             return symbols;
         }
+        return null;
     }
+}

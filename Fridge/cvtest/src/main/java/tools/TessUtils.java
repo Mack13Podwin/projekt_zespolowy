@@ -66,4 +66,22 @@ public class TessUtils {
         }
         return null;
     }
+
+    String getMostProbableText(BufferedImage image)
+    {
+        ITesseract instance = new Tesseract();
+        instance.setDatapath(datapath);
+        instance.setLanguage(language);
+        instance.setTessVariable("tessedit_char_whitelist", "0123456789-/.");
+
+        try{
+            String result = instance.doOCR(image);
+            return result;
+
+        } catch (TesseractException e) {
+            System.err.println(e.getMessage());
+        }
+        return null;
+    }
+    }
 }

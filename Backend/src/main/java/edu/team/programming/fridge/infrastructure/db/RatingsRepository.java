@@ -7,5 +7,5 @@ import java.util.List;
 
 
 public interface RatingsRepository extends MongoRepository<Rating,String>,RatingsRepositoryCustom {
-       List<Rating> findByFridgeidAndRatingGreaterThanEqual(String fridgeId,double rating);
+       List<Rating> findByFridgeidAndRatingGreaterThanEqualOrderByRatingRatingDesc(String fridgeId,double rating);
 }

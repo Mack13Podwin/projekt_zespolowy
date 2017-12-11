@@ -43,7 +43,7 @@ public class UIController {
             e.printStackTrace();
         }
         RatingAverage average=ratingsRepository.aggregate(fridgeId).get(0);
-        return ratingsRepository.findByFridgeidAndRatingGreaterThanEqual(fridgeId,average.getAverage());
+        return ratingsRepository.findByFridgeidAndRatingGreaterThanEqualOrderByRatingRatingDesc(fridgeId,average.getAverage());
     }
 
     @RequestMapping(value = "/expired/{fridgeId}", method=RequestMethod.POST)

@@ -27,6 +27,7 @@ public class RatingCalculator implements Runnable{
     @Override
     public void run() {
         List<User> users=usersRepository.findAll();
+        ratingsRepository.deleteAll();
         for(User user:users){
             String fridgeid=user.getFridgeid();
             List<Product>products=productRepository.findByFridgeid(fridgeid);

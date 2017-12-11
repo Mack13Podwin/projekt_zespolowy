@@ -4,10 +4,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: grey;" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="content" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: grey;" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxapp.StartScreenController">
    <children>
-      <Button layoutX="109.0" layoutY="150.0" mnemonicParsing="false" prefHeight="101.0" prefWidth="383.0" style="-fx-background-color: #C7C7C7; -fx-background-radius: 15 15 15 15;" text="START" textFill="#090909">
+      <Button fx:id="startButton" layoutX="109.0" layoutY="150.0" mnemonicParsing="false" onMouseClicked="#startButtonClicked" prefHeight="101.0" prefWidth="383.0" style="-fx-background-color: #C7C7C7; -fx-background-radius: 15 15 15 15;" text="START" textFill="#090909">
          <font>
             <Font name="System Bold" size="48.0" />
          </font>

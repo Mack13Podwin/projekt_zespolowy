@@ -7,34 +7,34 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: grey;" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ImageView fitHeight="277.0" fitWidth="378.0" layoutX="208.0" layoutY="33.0">
          <image>
             <Image url="@../../Documents/ProjektZesp/repo/Fridge/cvtest/img/file5.jpg" />
          </image>
       </ImageView>
-      <Label layoutX="47.0" layoutY="51.0" prefHeight="30.0" prefWidth="131.0" text="OBECNY KOD" textAlignment="CENTER">
+      <Label layoutX="47.0" layoutY="51.0" prefHeight="30.0" prefWidth="131.0" styleClass="label-dark" stylesheets="@style.css" text="OBECNY KOD" textAlignment="CENTER">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Label layoutX="47.0" layoutY="95.0" prefHeight="29.0" prefWidth="131.0" style="-fx-background-color: #E3E3E3;" text="5905308704412" textOverrun="CLIP">
+      <Label layoutX="47.0" layoutY="95.0" prefHeight="29.0" prefWidth="131.0" text="5905308704412" textOverrun="CLIP">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Button layoutX="47.0" layoutY="345.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="122.0" style="-fx-background-color: #C7C7C7; fx-border-radius: 15 15 15 15;" text="ANULUJ">
+      <Button layoutX="47.0" layoutY="345.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="122.0" styleClass="smallButton" stylesheets="@style.css" text="ANULUJ">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
-      <Button layoutX="246.0" layoutY="345.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="122.0" style="-fx-background-color: #C7C7C7; fx-border-radius: 15 15 15 15;" text="POPRAW">
+      <Button layoutX="246.0" layoutY="345.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="122.0" styleClass="smallButton" stylesheets="@style.css" text="POPRAW">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
-      <Button layoutX="437.0" layoutY="345.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="122.0" style="-fx-background-color: #C7C7C7; fx-border-radius: 15 15 15 15;" text="NASTĘPNY">
+      <Button layoutX="437.0" layoutY="345.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="122.0" styleClass="smallButton" text="NASTĘPNY">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>

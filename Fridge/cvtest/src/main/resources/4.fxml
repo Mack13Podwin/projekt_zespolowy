@@ -6,74 +6,74 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: grey;" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <TextField layoutX="222.0" layoutY="85.0" prefHeight="47.0" prefWidth="157.0" style="-fx-background-color: #E3E3E3;" text="5905308704412">
+      <TextField layoutX="222.0" layoutY="85.0" prefHeight="47.0" prefWidth="157.0" styleClass="label" stylesheets="@style.css" text="5905308704412">
          <font>
             <Font size="18.0" />
          </font>
       </TextField>
-      <Label layoutX="218.0" layoutY="35.0" prefHeight="40.0" prefWidth="166.0" text="POPRAW KOD">
+      <Label layoutX="218.0" layoutY="35.0" prefHeight="40.0" prefWidth="166.0" styleClass="label-dark" stylesheets="@style.css" text="POPRAW KOD">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <Button layoutX="218.0" layoutY="156.0" mnemonicParsing="false" text="1">
+      <Button layoutX="218.0" layoutY="156.0" mnemonicParsing="false" styleClass="keyboardButton" stylesheets="@style.css" text="1">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Button>
-      <Button layoutX="284.0" layoutY="156.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="35.0" text="2">
+      <Button layoutX="284.0" layoutY="156.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="35.0" styleClass="keyboardButton" stylesheets="@style.css" text="2">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Button>
-      <Button layoutX="345.0" layoutY="156.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="26.0" text="3">
+      <Button layoutX="345.0" layoutY="156.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="26.0" styleClass="keyboardButton" stylesheets="@style.css" text="3">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Button>
-      <Button layoutX="218.0" layoutY="202.0" mnemonicParsing="false" text="4">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Button>
-      <Button layoutX="346.0" layoutY="202.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="34.0" text="6">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Button>
-      <Button layoutX="285.0" layoutY="202.0" mnemonicParsing="false" text="5">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Button>
-      <Button layoutX="218.0" layoutY="250.0" mnemonicParsing="false" text="7">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Button>
-      <Button layoutX="285.0" layoutY="250.0" mnemonicParsing="false" text="8">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Button>
-      <Button layoutX="345.0" layoutY="250.0" mnemonicParsing="false" text="9">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Button>
-      <Button layoutX="285.0" layoutY="299.0" mnemonicParsing="false" text="0">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Button>
-      <Button layoutX="55.0" layoutY="343.0" mnemonicParsing="false" text="ANULUJ">
+      <Button layoutX="218.0" layoutY="202.0" mnemonicParsing="false" styleClass="keyboardButton" stylesheets="@style.css" text="4">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Button>
-      <Button layoutX="433.0" layoutY="343.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="116.0" text="AKCEPTUJ">
+      <Button layoutX="346.0" layoutY="202.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="34.0" styleClass="keyboardButton" stylesheets="@style.css" text="6">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Button>
+      <Button layoutX="285.0" layoutY="202.0" mnemonicParsing="false" styleClass="keyboardButton" stylesheets="@style.css" text="5">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Button>
+      <Button layoutX="218.0" layoutY="250.0" mnemonicParsing="false" styleClass="keyboardButton" stylesheets="@style.css" text="7">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Button>
+      <Button layoutX="285.0" layoutY="250.0" mnemonicParsing="false" styleClass="keyboardButton" stylesheets="@style.css" text="8">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Button>
+      <Button layoutX="345.0" layoutY="250.0" mnemonicParsing="false" styleClass="keyboardButton" stylesheets="@style.css" text="9">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Button>
+      <Button layoutX="285.0" layoutY="299.0" mnemonicParsing="false" styleClass="keyboardButton" stylesheets="@style.css" text="0">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Button>
+      <Button layoutX="55.0" layoutY="343.0" mnemonicParsing="false" styleClass="smallButton" stylesheets="@style.css" text="ANULUJ">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Button>
+      <Button layoutX="433.0" layoutY="343.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="116.0" styleClass="smallButton" stylesheets="@style.css" text="AKCEPTUJ">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>

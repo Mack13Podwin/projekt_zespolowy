@@ -1,0 +1,23 @@
+.background{
+    -fx-background-color: grey
+}
+.button-big{ 
+    -fx-background-color:  #C7C7C7;
+    -fx-background-radius:  15 15 15 15
+}
+.label{
+    -fx-background-color: #E3E3E3
+}
+.smallButton{
+    -fx-background-color: #C7C7C7;
+    fx-border-radius: 15 15 15 15
+}
+.label-dark{
+    -fx-background-color: grey
+}
+.keyboardButton{
+    -fx-background-color: rgb(235, 235, 235)
+}
+.listView{
+    -fx-background-color: rgb(243, 243, 243)
+}

@@ -16,6 +16,8 @@ import java.util.concurrent.TimeUnit;
 
 public class MainScreen {
     @FXML
+    public Button switchScreenButton;
+    @FXML
     private ImageView camPreview;
     @FXML
     private Button startButton;

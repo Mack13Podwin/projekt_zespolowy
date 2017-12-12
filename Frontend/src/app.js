@@ -3,8 +3,8 @@
 
     angular
         .module('app', ['ngRoute',
-            'app.home',
-            'app.user',
+            'ngStorage',
+            'app.login',
             'app.fridgeItems',
             'app.shoppingList',
             'app.suggestedRecipe']);

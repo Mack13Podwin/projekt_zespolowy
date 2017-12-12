@@ -5,11 +5,11 @@
         .module('app')
         .controller('MainController', MainController);
 
-    MainController.$inject=['$scope', 'userService'];
+    MainController.$inject=['$scope', 'loginService'];
 
-    function MainController($scope, userService){
+    function MainController($scope, loginService){
         var vm=this;
-        vm.loggedIn=userService.loggedIn;
+        vm.loggedIn=loginService.loggedIn;
     }
 
 })();

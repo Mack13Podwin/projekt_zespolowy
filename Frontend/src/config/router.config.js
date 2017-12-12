@@ -8,10 +8,13 @@
     function config($routeProvider, $locationProvider){
         $locationProvider.hashPrefix("");
         $routeProvider
-            .when('/home', {
-                templateUrl: 'src/home/home.html',
-                controller: 'HomeController',
+            .when('/login', {
+                templateUrl: 'src/login/login.html',
+                controller: 'LoginController',
                 controllerAs: 'vm'
+            })
+            .when('/home', {
+                templateUrl: 'src/home/home.html'
             })
             .when('/fridgeItems', {
                 templateUrl: 'src/fridgeItems/fridgeItems.html',

@@ -5,16 +5,16 @@
         .module('app.fridgeItems')
         .service('fridgeItemsService', fridgeItemsService);
 
-    fridgeItemsService.$inject=['$http', 'userService'];
+    fridgeItemsService.$inject=['$http', 'loginService'];
 
-    function fridgeItemsService($http, userService){
+    function fridgeItemsService($http, loginService){
         var service={
             getProductsInFridge: getProductsInFridge
         }
         return service;
 
         function getProductsInFridge(){
-            return $http.get('/backend/ui/inside/'+userService.getCurrentFridgeId());
+            return $http.get('/backend/ui/inside/'+loginService.getUserFridgeId());
         }
     }
 

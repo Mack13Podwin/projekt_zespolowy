@@ -31,7 +31,7 @@ public class CameraController {
     public BarcodeTO putProduct(@RequestBody CameraProduct cp){
         Barcode b=barcodeRepository.findByBarcode(cp.getBarCode());
         if(b!=null){
-            Product p=Product.builder().name(b.getName()).type(b.getType()).fridgeid("00000000").barcode(cp.getBarCode()).addingdate(cp.getDate()).build();
+            Product p=Product.builder().name(b.getName()).type(b.getType()).fridgeid(cp.getBarCode()).barcode(cp.getBarCode()).addingdate(cp.getDate()).build();
             productRepository.save(p);
             return BarcodeTO.createFromBarcode(b);
         }else{
@@ -47,6 +47,7 @@ public class CameraController {
             products.sort(Comparator.comparing(Product::getAddingdate));
             Product product=products.get(0);
             product.setRemovingdate(cp.getDate());
+            productRepository.save(product);
         }else{
             ResponseEntity.status(HttpStatus.CONFLICT).body(null);
         }

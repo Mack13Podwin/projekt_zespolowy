@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping(value="/camera")
@@ -57,11 +58,11 @@ public class CameraController {
     public void openProduct(@RequestBody CameraProduct cp){
         List<Product> products=productRepository.findByBarcode(cp.getBarCode());
         if(!products.isEmpty()){
-            Product p=products.stream().filter(product -> product.getOpeningdate()==null).findAny().get();
-            if(p!=null){
+            try{
+                Product p=products.stream().filter(product -> product.getOpeningdate()==null).findAny().get();
                 p.setOpeningdate(cp.getDate());
                 productRepository.save(p);
-            }else{
+            }catch(NoSuchElementException ex){
                 ResponseEntity.status(HttpStatus.CONFLICT).body("Closed product not found!");
             }
         }else{

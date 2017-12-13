@@ -9,10 +9,7 @@ import edu.team.programming.fridge.infrastructure.rest.CameraProduct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Comparator;
 import java.util.List;
@@ -29,10 +26,10 @@ public class CameraController {
     private BarcodeRepository barcodeRepository;
 
     @RequestMapping(value="/product", method= RequestMethod.PUT)
-    public BarcodeTO putProduct(@RequestBody CameraProduct cp){
+    public BarcodeTO putProduct(@RequestBody CameraProduct cp, @RequestHeader(required = true, name = "authorization") String authorization){
         Barcode b=barcodeRepository.findByBarcode(cp.getBarCode());
         if(b!=null){
-            Product p=Product.builder().name(b.getName()).type(b.getType()).fridgeid(cp.getBarCode()).barcode(cp.getBarCode()).addingdate(cp.getDate()).build();
+            Product p=Product.builder().name(b.getName()).type(b.getType()).fridgeid(authorization).barcode(cp.getBarCode()).addingdate(cp.getDate()).build();
             productRepository.save(p);
             return BarcodeTO.createFromBarcode(b);
         }else{
@@ -42,8 +39,8 @@ public class CameraController {
     }
 
     @RequestMapping(value = "/product", method=RequestMethod.DELETE)
-    public void removeProduct(@RequestBody CameraProduct cp){
-        List<Product> products=productRepository.findByBarcode(cp.getBarCode());
+    public void removeProduct(@RequestBody CameraProduct cp, @RequestHeader(required = true, name="authorization") String authorization){
+        List<Product> products=productRepository.findByBarcodeAndFridgeid(cp.getBarCode(), authorization);
         if(!products.isEmpty()){
             products.sort(Comparator.comparing(Product::getAddingdate));
             Product product=products.get(0);
@@ -55,8 +52,8 @@ public class CameraController {
     }
 
     @RequestMapping(value="/product", method=RequestMethod.PATCH)
-    public void openProduct(@RequestBody CameraProduct cp){
-        List<Product> products=productRepository.findByBarcode(cp.getBarCode());
+    public void openProduct(@RequestBody CameraProduct cp, @RequestHeader(required = true, name="authorization") String authorization){
+        List<Product> products=productRepository.findByBarcodeAndFridgeid(cp.getBarCode(), authorization);
         if(!products.isEmpty()){
             try{
                 Product p=products.stream().filter(product -> product.getOpeningdate()==null).findAny().get();

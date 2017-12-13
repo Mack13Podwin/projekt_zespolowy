@@ -47,7 +47,7 @@ public class UIController {
     public List<Rating> getShoppingList(@PathVariable String fridgeId){
         RatingAverage average=ratingsRepository.aggregate(fridgeId).get(0);
         List<Rating>ratings=
-                ratingsRepository.findByFridgeidAndRatingGreaterThanEqualOrderByRatingRatingDesc(fridgeId,
+                ratingsRepository.findByFridgeidAndRatingGreaterThanEqualOrderByRatingDesc(fridgeId,
                         average.getAverage());
         List<Rating> result=ratings.subList(0,ratings.size());
         for (Rating rating:ratings){

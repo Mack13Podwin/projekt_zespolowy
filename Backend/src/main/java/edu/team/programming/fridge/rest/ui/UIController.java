@@ -32,9 +32,8 @@ public class UIController {
         System.out.println("Getting products from fridge "+fridgeId);
         return productRepository.findByFridgeidAndRemovingdateIsNull(fridgeId);
     }
-
-    @RequestMapping(value = "/shoppinglist/{fridgeId}", method = RequestMethod.GET)
-    public List<Rating> getShoppingList(@PathVariable String fridgeId){
+    @RequestMapping(value = "/calculateRating")
+    public String calculateRating(){
         Thread calc=new Thread(ratingCalculator);
         calc.start();
         try {
@@ -42,8 +41,21 @@ public class UIController {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        return "OK\n";
+    }
+    @RequestMapping(value = "/shoppinglist/{fridgeId}", method = RequestMethod.GET)
+    public List<Rating> getShoppingList(@PathVariable String fridgeId){
         RatingAverage average=ratingsRepository.aggregate(fridgeId).get(0);
-        return ratingsRepository.findByFridgeidAndRatingGreaterThanEqualOrderByRatingRatingDesc(fridgeId,average.getAverage());
+        List<Rating>ratings=
+                ratingsRepository.findByFridgeidAndRatingGreaterThanEqualOrderByRatingRatingDesc(fridgeId,
+                        average.getAverage());
+        List<Rating> result=ratings.subList(0,ratings.size());
+        for (Rating rating:ratings){
+            if(productRepository.findByFridgeidAndTypeAndRemovingdateIsNull(fridgeId,rating.getType()).size()!=0){
+                result.remove(rating);
+            }
+        }
+        return result;
     }
 
     @RequestMapping(value = "/expired/{fridgeId}", method=RequestMethod.POST)

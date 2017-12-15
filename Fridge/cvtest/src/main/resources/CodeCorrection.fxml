@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="content" fx:controller="fxapp.CodeCorrectionController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <TextField layoutX="222.0" layoutY="85.0" prefHeight="47.0" prefWidth="157.0" styleClass="label" stylesheets="@style.css" text="5905308704412">
          <font>
@@ -73,7 +73,7 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Button>
-      <Button layoutX="433.0" layoutY="343.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="116.0" styleClass="smallButton" stylesheets="@style.css" text="AKCEPTUJ">
+      <Button onMouseClicked="#accept" layoutX="433.0" layoutY="343.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="116.0" styleClass="smallButton" stylesheets="@style.css" text="AKCEPTUJ">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>

@@ -14,18 +14,22 @@ public class FXApp extends Application {
 
     private Stage primaryStage;
     private AnchorPane rootLayout;
-
+    private ScreenSwitcher screenSwitcher;
     public static void main(String[] args) {
-        CVUtils cvUtils = new CVUtils();//potrzebne do zalatania
+        CVUtils cvUtils = new CVUtils();//potrzebne do zaladowania bibliotek opencv
         launch(args);
     }
 
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        this.primaryStage.setTitle("AddressApp");
+        this.primaryStage.setTitle("Intelligent fridge");
+        screenSwitcher=new ScreenSwitcher();
         initRootLayout();
+        screenSwitcher.loadScreens();
     }
+
+
 
     public Stage getPrimaryStage() {
         return primaryStage;
@@ -33,18 +37,16 @@ public class FXApp extends Application {
     }
 
     public void initRootLayout() {
-        try {
             // Load root layout from fxml file.
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(FXApp.class.getClassLoader().getResource("MainScreen.fxml"));
-            rootLayout = (AnchorPane) loader.load();
-
+           // FXMLLoader loader = new FXMLLoader();
+            //loader.setLocation(FXApp.class.getClassLoader().getResource("StartScreen.fxml"));
+            //rootLayout =  loader.load();
+            //ScreenSwitcher.rootPane=rootLayout;
             // Show the scene containing the root layout.
+            rootLayout=new AnchorPane();
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
             primaryStage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
+
 }

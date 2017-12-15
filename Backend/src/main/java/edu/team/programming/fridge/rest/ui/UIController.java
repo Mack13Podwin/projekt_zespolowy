@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class UIController {
         System.out.println("Getting products from fridge "+fridgeId);
         return productRepository.findByFridgeidAndRemovingdateIsNull(fridgeId);
     }
-    @RequestMapping(value = "/calculateRating")
+    @RequestMapping(value = "/calculateRating", method=RequestMethod.GET)
     public String calculateRating(){
         Thread calc=new Thread(ratingCalculator);
         calc.start();
@@ -49,10 +50,10 @@ public class UIController {
         List<Rating>ratings=
                 ratingsRepository.findByFridgeidAndRatingGreaterThanEqualOrderByRatingDesc(fridgeId,
                         average.getAverage());
-        List<Rating> result=ratings.subList(0,ratings.size());
+        List<Rating> result= new ArrayList<>();
         for (Rating rating:ratings){
-            if(productRepository.findByFridgeidAndTypeAndRemovingdateIsNull(fridgeId,rating.getType()).size()!=0){
-                result.remove(rating);
+            if(productRepository.findByFridgeidAndTypeAndRemovingdateIsNull(fridgeId,rating.getType()).size()==0){
+                result.add(rating);
             }
         }
         return result;

@@ -34,5 +34,10 @@ public class CameraFactory {
         }
         return Cameras.get(cameraNumber);
     }
+    public static void release(){
+        for(Camera cam:Cameras.values()){
+            cam.releaseCam();
+        }
+    }
 }
 

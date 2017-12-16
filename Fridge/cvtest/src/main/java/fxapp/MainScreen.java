@@ -54,13 +54,7 @@ public class MainScreen implements IScreen{
     }
 
     public void switchScreenClick(MouseEvent mouseEvent) {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(FXApp.class.getClassLoader().getResource("StartScreen.fxml"));
-        try {
-            content.getChildren().setAll((AnchorPane)loader.load());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
     }
 
     @Override

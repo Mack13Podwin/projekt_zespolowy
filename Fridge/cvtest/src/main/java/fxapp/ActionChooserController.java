@@ -10,6 +10,7 @@ import java.io.IOException;
 public class ActionChooserController implements IScreen{
     @FXML
     AnchorPane content;
+
     private ScreenSwitcher screenSwitcher;
 
     public void scanUsedClicked(MouseEvent mouseEvent) {
@@ -21,6 +22,7 @@ public class ActionChooserController implements IScreen{
     }
 
     public void scanNewClicked(MouseEvent mouseEvent) {
+        System.out.println(screenSwitcher==null);
         screenSwitcher.switchToScanningScreen(this, ScanningScreenController.ScanOperationType.NEW);
     }
 
@@ -43,9 +45,6 @@ public class ActionChooserController implements IScreen{
     @Override
     public AnchorPane getContent() {
         return content;
-    }
-    public ActionChooserController(){
-        System.out.println("new ActionChooserController()");
     }
 
 }

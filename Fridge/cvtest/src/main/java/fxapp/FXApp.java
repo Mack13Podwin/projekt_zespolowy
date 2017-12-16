@@ -1,12 +1,16 @@
 package fxapp;
 
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import tools.CVUtils;
+import tools.CameraFactory;
 
 import java.io.IOException;
 
@@ -24,9 +28,16 @@ public class FXApp extends Application {
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Intelligent fridge");
+        primaryStage.setOnCloseRequest(t -> {
+            CameraFactory.release();
+            Platform.exit();
+            System.exit(0);
+        });
         screenSwitcher=new ScreenSwitcher();
         initRootLayout();
         screenSwitcher.loadScreens();
+        screenSwitcher.setRootPane(rootLayout);
+        screenSwitcher.switchToScreen(ScreenSwitcher.Screens.START_SCREEN);
     }
 
 

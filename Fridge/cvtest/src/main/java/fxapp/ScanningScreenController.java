@@ -1,5 +1,6 @@
 package fxapp;
 
+import com.sun.org.apache.xml.internal.utils.StringBufferPool;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -59,9 +60,11 @@ public class ScanningScreenController implements IScreen, IView{
 
     @Override
     public String getCurrent() {
-        return null;
+        return currentLabel.getText();
     }
-
+    public StringProperty getCurrentCodeProperty(){
+        return currentCodeProperty;
+    }
     enum ScanOperationType{
         NEW,OPEN,DELETE
     }
@@ -113,7 +116,7 @@ public class ScanningScreenController implements IScreen, IView{
     }
 
     public void fixClicked(MouseEvent mouseEvent) {
-        screenSwitcher.switchToCodeCorrection(this);
+        screenSwitcher.switchToCodeCorrection();
     }
 
     @Override

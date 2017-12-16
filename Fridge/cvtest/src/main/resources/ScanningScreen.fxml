@@ -14,12 +14,12 @@
             <Image url="@img/file5.jpg" />
          </image>
       </ImageView>
-      <Label fx:id="currentLabel" layoutX="47.0" layoutY="51.0" prefHeight="30.0" prefWidth="131.0" styleClass="label-dark" stylesheets="@style.css" text="OBECNY KOD" textAlignment="CENTER">
+      <Label layoutX="47.0" layoutY="51.0" prefHeight="30.0" prefWidth="131.0" styleClass="label-dark" stylesheets="@style.css" text="OBECNY KOD" textAlignment="CENTER">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Label layoutX="47.0" layoutY="95.0" prefHeight="29.0" prefWidth="131.0" text="5905308704412" textOverrun="CLIP">
+      <Label fx:id="currentLabel"  layoutX="47.0" layoutY="95.0" prefHeight="29.0" prefWidth="131.0" text="5905308704412" textOverrun="CLIP">
          <font>
             <Font size="18.0" />
          </font>

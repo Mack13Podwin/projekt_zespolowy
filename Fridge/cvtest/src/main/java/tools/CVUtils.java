@@ -110,7 +110,7 @@ public class CVUtils {
         Imgproc.warpAffine(src, dst, rot, new Size(nW, nH));
     }
 
-    static void preprocess(Mat src, Mat dst) {
+    public static void preprocess(Mat src, Mat dst) {
         Mat temp=new Mat();
         Mat temp2=new Mat();
         Imgproc.cvtColor(src, temp2, Imgproc.COLOR_BGR2GRAY);

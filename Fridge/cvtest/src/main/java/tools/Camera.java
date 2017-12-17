@@ -40,7 +40,7 @@ public class Camera {
      * @param dst
      * @return
      */
-    public boolean captureFrame(Mat dst){
+    public synchronized boolean captureFrame(Mat dst){
         if(isCorrectlyOpened()){
             capture.read(dst);
             return true;

@@ -58,6 +58,7 @@ public class CodeCorrectionController implements IScreen {
 
     public void accept(MouseEvent mouseEvent) {
         //screenSwitcher.switchToScreen(ScreenSwitcher.Screens.SCANNING_SCREEN);
+        screenSwitcher.comeBackToScanningScreen();
     }
 
     public void cancelClick(MouseEvent mouseEvent) {

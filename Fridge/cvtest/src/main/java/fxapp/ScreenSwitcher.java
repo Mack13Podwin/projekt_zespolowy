@@ -28,6 +28,11 @@ public class ScreenSwitcher {
         screens.get(screen).onScreenShow();
     }
 
+    public void comeBackToScanningScreen() {
+        scanningScreenController.setCurrentCode(codeCorrectionController.getCode());
+        switchToScreen(Screens.SCANNING_SCREEN);
+    }
+
 
     enum Screens {
         CODE_CORRECTION("CodeCorrection.fxml"), ACTION_CHOOSER("ActionChooser.fxml"), START_SCREEN("StartScreen.fxml"),

@@ -243,7 +243,7 @@ public class TessUtils {
         text = getYears10(text, symbols, jmax);
         return text;
     }
-    String getText(BufferedImage image)
+    public String getText(BufferedImage image)
     {
         ByteBuffer buf = ImageIOHelper.convertImageData(image);
         int bpp = image.getColorModel().getPixelSize();

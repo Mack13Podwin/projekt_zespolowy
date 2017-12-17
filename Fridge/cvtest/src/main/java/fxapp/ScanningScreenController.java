@@ -13,19 +13,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import org.opencv.core.Mat;
-import tools.CVUtils;
-import tools.Camera;
-import tools.CameraFactory;
-import tools.IView;
+import tools.*;
 
 
 import java.io.IOException;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 public class ScanningScreenController implements IScreen, IView{
+    TessUtils tessUtils=new TessUtils();
     @FXML
     private ImageView scanningPreview;
     @FXML
@@ -34,10 +29,12 @@ public class ScanningScreenController implements IScreen, IView{
     private Label currentLabel;
     @FXML
     private Button cancelButton;
+    @FXML
+    private Button dateButton;
     private ScheduledExecutorService timer;
     private ScreenSwitcher screenSwitcher;
     private StringProperty currentCodeProperty=new SimpleStringProperty();
-
+    private Camera cam= CameraFactory.getInstance();
     @Override
     public void setCurrentCode(String currentCode) {
         Platform.runLater(() -> currentCodeProperty.setValue(currentCode));
@@ -65,6 +62,21 @@ public class ScanningScreenController implements IScreen, IView{
     public StringProperty getCurrentCodeProperty(){
         return currentCodeProperty;
     }
+
+    public void dateClicked(MouseEvent mouseEvent) {
+        dateButton.setDisable(true);
+        Thread t=new Thread(){
+            @Override public void run(){
+                Mat frame=new Mat();
+                Mat dst=new Mat();
+                cam.captureFrame(frame);
+                CVUtils.preprocess(frame,dst);
+                System.out.println((tessUtils.getText(CVUtils.MatToBufferedImage(dst))));
+            }
+        };
+        t.start();
+    }
+
     enum ScanOperationType{
         NEW,OPEN,DELETE
     }
@@ -85,7 +97,7 @@ public class ScanningScreenController implements IScreen, IView{
 
     ScheduledFuture<?> previewFuture=null;
     public void startPreview(){
-        Camera cam= CameraFactory.getInstance();
+
         Runnable frameGrabber = new Runnable() {
 
             @Override
@@ -102,6 +114,7 @@ public class ScanningScreenController implements IScreen, IView{
                         scanningPreview.setImage(img);
                     }
                 });
+                frame.release();
             }
         };
 

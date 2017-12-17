@@ -47,4 +47,7 @@ public class ActionChooserController implements IScreen{
         return content;
     }
 
+    public void productListClicked(MouseEvent mouseEvent) {
+        screenSwitcher.switchToScreen(ScreenSwitcher.Screens.PRODUCT_LIST);
+    }
 }

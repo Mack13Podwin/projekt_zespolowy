@@ -1,6 +1,8 @@
 package fxapp;
 
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 public class ProductListController implements IScreen{
@@ -16,7 +18,12 @@ public class ProductListController implements IScreen{
     public void onScreenShow() {
 
     }
+    public void setProductList(ObservableList list){
 
+    }
+    private void fetchProductList(){
+
+    }
     @Override
     public void setScreenSwitcher(ScreenSwitcher switcher) {
         screenSwitcher=switcher;
@@ -24,6 +31,10 @@ public class ProductListController implements IScreen{
 
     @Override
     public AnchorPane getContent() {
-        return null;
+        return content;
+    }
+
+    public void cancelClicked(MouseEvent mouseEvent) {
+        screenSwitcher.switchToScreen(ScreenSwitcher.Screens.ACTION_CHOOSER);
     }
 }

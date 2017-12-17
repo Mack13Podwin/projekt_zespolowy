@@ -1,18 +1,13 @@
 package fxapp;
 
+import com.google.gson.Gson;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import tools.CVUtils;
 import tools.CameraFactory;
-
-import java.io.IOException;
 
 public class FXApp extends Application {
 
@@ -21,6 +16,8 @@ public class FXApp extends Application {
     private ScreenSwitcher screenSwitcher;
     public static void main(String[] args) {
         CVUtils cvUtils = new CVUtils();//potrzebne do zaladowania bibliotek opencv
+        Gson gson=new Gson();
+
         launch(args);
     }
 
@@ -57,6 +54,7 @@ public class FXApp extends Application {
             rootLayout=new AnchorPane();
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
+            //primaryStage.setFullScreen(true);
             primaryStage.show();
     }
 

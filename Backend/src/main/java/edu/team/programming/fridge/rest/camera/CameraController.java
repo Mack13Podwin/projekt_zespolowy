@@ -2,6 +2,7 @@ package edu.team.programming.fridge.rest.camera;
 
 import edu.team.programming.fridge.domain.Barcode;
 import edu.team.programming.fridge.domain.Product;
+import edu.team.programming.fridge.exception.ConflictException;
 import edu.team.programming.fridge.infrastructure.db.BarcodeRepository;
 import edu.team.programming.fridge.infrastructure.db.ProductRepository;
 import edu.team.programming.fridge.infrastructure.rest.BarcodeTO;
@@ -26,20 +27,19 @@ public class CameraController {
     private BarcodeRepository barcodeRepository;
 
     @RequestMapping(value="/product", method= RequestMethod.PUT)
-    public BarcodeTO putProduct(@RequestBody CameraProduct cp, @RequestHeader(required = true, name = "authorization") String authorization){
+    public BarcodeTO putProduct(@RequestBody CameraProduct cp, @RequestHeader(required = true, name = "authorization") String authorization) throws ConflictException{
         Barcode b=barcodeRepository.findByBarcode(cp.getBarcode());
         if(b!=null){
             Product p=Product.builder().name(b.getName()).type(b.getType()).fridgeid(authorization).barcode(cp.getBarcode()).addingdate(cp.getDate()).build();
             productRepository.save(p);
             return BarcodeTO.createFromBarcode(b);
         }else{
-            ResponseEntity.status(HttpStatus.CONFLICT).body(null);
-            return null;
+            throw new ConflictException();
         }
     }
 
     @RequestMapping(value = "/product", method=RequestMethod.DELETE)
-    public void removeProduct(@RequestBody CameraProduct cp, @RequestHeader(required = true, name="authorization") String authorization){
+    public void removeProduct(@RequestBody CameraProduct cp, @RequestHeader(required = true, name="authorization") String authorization) throws ConflictException {
         List<Product> products=productRepository.findByBarcodeAndFridgeid(cp.getBarcode(), authorization);
         if(!products.isEmpty()){
             products.sort(Comparator.comparing(Product::getAddingdate));
@@ -47,12 +47,12 @@ public class CameraController {
             product.setRemovingdate(cp.getDate());
             productRepository.save(product);
         }else{
-            ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+            throw new ConflictException();
         }
     }
 
     @RequestMapping(value="/product", method=RequestMethod.PATCH)
-    public void openProduct(@RequestBody CameraProduct cp, @RequestHeader(required = true, name="authorization") String authorization){
+    public void openProduct(@RequestBody CameraProduct cp, @RequestHeader(required = true, name="authorization") String authorization) throws ConflictException {
         List<Product> products=productRepository.findByBarcodeAndFridgeid(cp.getBarcode(), authorization);
         if(!products.isEmpty()){
             try{
@@ -60,10 +60,10 @@ public class CameraController {
                 p.setOpeningdate(cp.getDate());
                 productRepository.save(p);
             }catch(NoSuchElementException ex){
-                ResponseEntity.status(HttpStatus.CONFLICT).body("Closed product not found!");
+                throw new ConflictException();
             }
         }else{
-            ResponseEntity.status(HttpStatus.CONFLICT).body("Product not found!");
+            throw new ConflictException();
         }
     }
 

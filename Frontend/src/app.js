@@ -10,5 +10,9 @@
             'app.changeLogin',
             'app.fridgeItems',
             'app.shoppingList',
-            'app.suggestedRecipe']);
+            'app.suggestedRecipe',
+            'app.home',
+            'ngAnimate',
+            'ui.bootstrap'
+        ]);
 })();

@@ -1,1 +1,11 @@
-Home
+<div>
+    <div uib-carousel active="vm.active" interval="vm.myInterval" no-wrap="vm.noWrapSlides">
+        <div uib-slide ng-repeat="slide in vm.slides track by slide.id" index="slide.id">
+        <img ng-src={{slide.src}}>
+        <div class="carousel-caption">
+            <h1>{{slide.text}}</h1>
+            <h3>{{slide.text2}}</h3>
+        </div>
+        </div>
+    </div>
+</div>

@@ -9,7 +9,7 @@
 
     function ShoppingListController($scope,$http,$location,loginService){
         var vm=this;
-
+        vm.items=[]
         init();
         
         //////////////////////////////
@@ -18,6 +18,7 @@
             console.log("getting shoppin list")
             $http.get('/backend/ui/shoppinglist/'+loginService.getUserFridgeId()).then(function(response){
                 console.log(response.data)
+                vm.items=response.data
             }).catch(function(err){
                 console.log(err);
             })

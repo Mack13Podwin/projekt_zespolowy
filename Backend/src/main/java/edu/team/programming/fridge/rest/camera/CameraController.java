@@ -27,9 +27,9 @@ public class CameraController {
 
     @RequestMapping(value="/product", method= RequestMethod.PUT)
     public BarcodeTO putProduct(@RequestBody CameraProduct cp, @RequestHeader(required = true, name = "authorization") String authorization){
-        Barcode b=barcodeRepository.findByBarcode(cp.getBarCode());
+        Barcode b=barcodeRepository.findByBarcode(cp.getBarcode());
         if(b!=null){
-            Product p=Product.builder().name(b.getName()).type(b.getType()).fridgeid(authorization).barcode(cp.getBarCode()).addingdate(cp.getDate()).build();
+            Product p=Product.builder().name(b.getName()).type(b.getType()).fridgeid(authorization).barcode(cp.getBarcode()).addingdate(cp.getDate()).build();
             productRepository.save(p);
             return BarcodeTO.createFromBarcode(b);
         }else{
@@ -40,7 +40,7 @@ public class CameraController {
 
     @RequestMapping(value = "/product", method=RequestMethod.DELETE)
     public void removeProduct(@RequestBody CameraProduct cp, @RequestHeader(required = true, name="authorization") String authorization){
-        List<Product> products=productRepository.findByBarcodeAndFridgeid(cp.getBarCode(), authorization);
+        List<Product> products=productRepository.findByBarcodeAndFridgeid(cp.getBarcode(), authorization);
         if(!products.isEmpty()){
             products.sort(Comparator.comparing(Product::getAddingdate));
             Product product=products.get(0);
@@ -53,7 +53,7 @@ public class CameraController {
 
     @RequestMapping(value="/product", method=RequestMethod.PATCH)
     public void openProduct(@RequestBody CameraProduct cp, @RequestHeader(required = true, name="authorization") String authorization){
-        List<Product> products=productRepository.findByBarcodeAndFridgeid(cp.getBarCode(), authorization);
+        List<Product> products=productRepository.findByBarcodeAndFridgeid(cp.getBarcode(), authorization);
         if(!products.isEmpty()){
             try{
                 Product p=products.stream().filter(product -> product.getOpeningdate()==null).findAny().get();

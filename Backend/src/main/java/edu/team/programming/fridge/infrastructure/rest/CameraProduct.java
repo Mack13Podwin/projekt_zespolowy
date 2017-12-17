@@ -11,5 +11,5 @@ import java.util.Date;
 @NoArgsConstructor
 public class CameraProduct {
     private Date date;
-    private String barCode;
+    private String barcode;
 }

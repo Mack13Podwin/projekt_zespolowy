@@ -9,14 +9,15 @@
             <br>
             <div class="account-wall">
                 <div class=" panel-default">
-                    <div class="panel-heading"><h3 class="panel-title"><strong>Zaloguj </strong></h3></div>
+                    <div class="panel-heading"><h3 class="panel-title"><strong>LOGIN </strong></h3></div>
                       <form class="form-signin">
                       <form >
                       Login:<br>
                       <input type="text" class="form-control"ng-model="vm.user.login"><br>
-                      Hasło:<br>
-                      <input type="password" class="form-control"ng-model="vm.user.password"><br><br>
-                      <button class="btn btn-default btn-block" ng-click="vm.submit()" type="submit">Zaloguj</button>
+                      Password<br>
+                      <input type="password" class="form-control"ng-model="vm.user.password">
+                      <a class="pull-right" href="#remindPassword">Forgot password?</a><br><br>
+                      <button class="btn btn-default btn-block" ng-click="vm.submit()" type="submit">Login</button>
                     </form>
                   </form>
                   </div>

@@ -13,6 +13,21 @@
                 controller: 'LoginController',
                 controllerAs: 'vm'
             })
+            .when('/remindPassword', {
+                templateUrl: 'src/remindPassword/remindPassword.html',
+                controller: 'RemindPasswordController',
+                controllerAs: 'vm'
+            })
+            .when('/changePassword', {
+                templateUrl: 'src/changePassword/changePassword.html',
+                controller: 'ChangePasswordController',
+                controllerAs: 'vm'
+            })
+            .when('/changeLogin', {
+                templateUrl: 'src/changeLogin/changeLogin.html',
+                controller: 'ChangeLoginController',
+                controllerAs: 'vm'
+            })
             .when('/home', {
                 templateUrl: 'src/home/home.html'
             })
@@ -23,6 +38,8 @@
             })
             .when('/shoppingList', {
                 templateUrl: 'src/shoppingList/shoppingList.html',
+                controller: 'ShoppingListController',
+                controllerAs: 'vm'
             })
             .when('/suggestedRecipe', {
                 templateUrl: 'src/suggestedRecipe/suggestedRecipe.html',

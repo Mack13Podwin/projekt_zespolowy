@@ -29,7 +29,7 @@ public class UsersController {
         }
     }
 
-    @RequestMapping(value='/email', method=RequestMethod.POST)
+    @RequestMapping(value="/email", method=RequestMethod.POST)
     public void changeEmail(){
 
     }

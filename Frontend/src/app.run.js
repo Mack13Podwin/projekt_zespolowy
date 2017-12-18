@@ -9,7 +9,7 @@
         if($sessionStorage.user){
             loginService.setUser($sessionStorage.user);
         }else{
-            $location.path('/login');
+            $location.path('/home');
         }
     }
 })();

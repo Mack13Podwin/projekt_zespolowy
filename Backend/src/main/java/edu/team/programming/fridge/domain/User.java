@@ -13,4 +13,5 @@ public class User {
     private String password;
     private String fridgeid;
     private String country;
+    private boolean firstLogin;
 }

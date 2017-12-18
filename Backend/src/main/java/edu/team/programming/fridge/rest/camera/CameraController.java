@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -26,11 +27,17 @@ public class CameraController {
     @Autowired
     private BarcodeRepository barcodeRepository;
 
+    @RequestMapping(value="/products", method=RequestMethod.GET)
+    public List<Product> getProductsInFridge(@RequestHeader(name="authorization", required = true) String fridgeId){
+        System.out.println("Getting products from fridge "+fridgeId);
+        return productRepository.findByFridgeidAndRemovingdateIsNull(fridgeId);
+    }
+
     @RequestMapping(value="/product", method= RequestMethod.PUT)
     public BarcodeTO putProduct(@RequestBody CameraProduct cp, @RequestHeader(required = true, name = "authorization") String authorization) throws ConflictException{
         Barcode b=barcodeRepository.findByBarcode(cp.getBarcode());
         if(b!=null){
-            Product p=Product.builder().name(b.getName()).type(b.getType()).fridgeid(authorization).barcode(cp.getBarcode()).addingdate(cp.getDate()).build();
+            Product p=Product.builder().name(b.getName()).type(b.getType()).fridgeid(authorization).barcode(cp.getBarcode()).addingdate(new Date()).expirationdate(cp.getDate()).build();
             productRepository.save(p);
             return BarcodeTO.createFromBarcode(b);
         }else{
@@ -40,11 +47,11 @@ public class CameraController {
 
     @RequestMapping(value = "/product/delete", method=RequestMethod.PATCH)
     public void removeProduct(@RequestBody CameraProduct cp, @RequestHeader(required = true, name="authorization") String authorization) throws ConflictException {
-        List<Product> products=productRepository.findByBarcodeAndFridgeid(cp.getBarcode(), authorization);
+        List<Product> products=productRepository.findByBarcodeAndFridgeidAndExpirationdateAndRemovingdateIsNull(cp.getBarcode(), authorization, cp.getDate());
         if(!products.isEmpty()){
             products.sort(Comparator.comparing(Product::getAddingdate));
             Product product=products.get(0);
-            product.setRemovingdate(cp.getDate());
+            product.setRemovingdate(new Date());
             productRepository.save(product);
         }else{
             throw new ConflictException();
@@ -53,11 +60,11 @@ public class CameraController {
 
     @RequestMapping(value="/product", method=RequestMethod.PATCH)
     public void openProduct(@RequestBody CameraProduct cp, @RequestHeader(required = true, name="authorization") String authorization) throws ConflictException {
-        List<Product> products=productRepository.findByBarcodeAndFridgeid(cp.getBarcode(), authorization);
+        List<Product> products=productRepository.findByBarcodeAndFridgeidAndExpirationdateAndRemovingdateIsNull(cp.getBarcode(), authorization, cp.getDate());
         if(!products.isEmpty()){
             try{
                 Product p=products.stream().filter(product -> product.getOpeningdate()==null).findAny().get();
-                p.setOpeningdate(cp.getDate());
+                p.setOpeningdate(new Date());
                 productRepository.save(p);
             }catch(NoSuchElementException ex){
                 throw new ConflictException();

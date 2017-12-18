@@ -34,7 +34,7 @@
         }
 
         function loggedIn(){
-            return !!user;
+            return !!user && !user.firstLogin;
         }
         
     }

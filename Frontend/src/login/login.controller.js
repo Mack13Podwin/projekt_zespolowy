@@ -23,7 +23,11 @@
             loginService.login(vm.user.login, vm.user.password)
                 .then(function(user){
                     console.log("Hurra");
-                    $location.path('/home');
+                    if(user.firstLogin){
+                        $location.path('/setEmail');
+                    }else{
+                        $location.path('/home');
+                    }
 
                 }).catch(function(err){
                     console.log(err);

@@ -28,4 +28,9 @@ public class UsersController {
             return null;
         }
     }
+
+    @RequestMapping(value='/email', method=RequestMethod.POST)
+    public void changeEmail(){
+
+    }
 }

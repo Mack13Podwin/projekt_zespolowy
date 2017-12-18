@@ -1,12 +1,17 @@
 .table_style {
     margin-top: 50px;
     padding-bottom: auto;
-    background-color: #dad2cc;
+    background-color: #d8dee0;
     height: 100%;
 }
 
 .background{
-    background-color: #faf0e5;
+    /* background-color; */
+    background-image: url("img/e0a530fb4ece2174390452ec2e59360b.jpg")
+}
+
+.navbar{
+    margin-bottom: 10px
 }
 
 ul {
@@ -15,17 +20,6 @@ ul {
 
 .dt{
     size: 30px
-}
-
-.jumbotron{
-    opacity: 0.7;
-    background-color: #9fd8e6;
-    margin-bottom: 5px;
-    background-repeat: no-repeat;
-    background-position: center;
-    -webkit-background-size: cover;
-    background-size: cover;
-    height:150px;
 }
 
 .well{

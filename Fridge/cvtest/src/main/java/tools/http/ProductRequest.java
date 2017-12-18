@@ -5,9 +5,7 @@ import com.google.gson.GsonBuilder;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPut;
-import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.client.methods.*;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
@@ -36,6 +34,10 @@ public class ProductRequest extends Thread {
         switch (requestType){
             case NEW:
                 return createPutRequest(Url,gson);
+            case DELETE:
+                return createDeleteRequest(Url,gson);
+            case OPEN:
+                return createOpenRequest(Url, gson);
 
         }
         return null;
@@ -48,6 +50,25 @@ public class ProductRequest extends Thread {
         httpPut.setHeader("authorization", service.FridgeId);
         httpPut.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
         return httpPut;
+    }
+    private HttpPatch createOpenRequest(String url, Gson gson) throws UnsupportedEncodingException {
+        HttpPatch httpPatch = new HttpPatch(url);
+        StringEntity putEntity=new StringEntity(gson.toJson(product));
+        System.out.println(gson.toJson(product));
+        httpPatch.setEntity(putEntity);
+        httpPatch.setHeader("authorization", service.FridgeId);
+        httpPatch.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
+        return httpPatch;
+    }
+    private HttpPatch createDeleteRequest(String url, Gson gson) throws UnsupportedEncodingException {
+        url+="delete";
+        HttpPatch httpPatch = new HttpPatch(url);
+        StringEntity putEntity=new StringEntity(gson.toJson(product));
+        System.out.println(gson.toJson(product));
+        httpPatch.setEntity(putEntity);
+        httpPatch.setHeader("authorization", service.FridgeId);
+        httpPatch.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
+        return httpPatch;
     }
     @Override
     public void run() {

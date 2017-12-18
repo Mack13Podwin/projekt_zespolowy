@@ -8,6 +8,10 @@
 
     function SetEmailController($scope, $http){
         var vm=this;
-        
+        vm.submit=submit;
+        //////////////////////////
+        function submit(){
+            
+        }
     }
 })();

@@ -38,7 +38,7 @@ public class CameraController {
         }
     }
 
-    @RequestMapping(value = "/product", method=RequestMethod.DELETE)
+    @RequestMapping(value = "/product/delete", method=RequestMethod.PATCH)
     public void removeProduct(@RequestBody CameraProduct cp, @RequestHeader(required = true, name="authorization") String authorization) throws ConflictException {
         List<Product> products=productRepository.findByBarcodeAndFridgeid(cp.getBarcode(), authorization);
         if(!products.isEmpty()){

@@ -9,11 +9,9 @@ import org.apache.http.client.methods.*;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
-import tools.Product;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.Date;
 
 public class ProductRequest extends Thread {
 
@@ -74,7 +72,7 @@ public class ProductRequest extends Thread {
     public void run() {
         String getUrl = service.DOMAIN_NAME + service.PRODUCT_OPERATION_PATH;
         Gson gson = new GsonBuilder()
-                .setDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz").create();
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ssX").create();
         HttpClient httpClient = HttpClientBuilder.create().build();
 
 

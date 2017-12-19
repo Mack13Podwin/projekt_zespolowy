@@ -10,46 +10,46 @@
 
 <AnchorPane fx:id="content" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxapp.ScanningScreenController">
    <children>
-      <ImageView fx:id="scanningPreview" fitHeight="277.0" fitWidth="378.0" layoutX="208.0" layoutY="33.0">
+      <ImageView fx:id="scanningPreview" fitHeight="277.0" fitWidth="359.0" layoutX="208.0" layoutY="33.0">
          <image>
             <Image url="@../../../img/file5.jpg" />
          </image>
       </ImageView>
-      <Label layoutX="47.0" layoutY="51.0" prefHeight="30.0" prefWidth="131.0" styleClass="label-dark" stylesheets="@style.css" text="OBECNY KOD" textAlignment="CENTER">
+      <Label fx:id="barcodeStatusLabel" layoutX="34.0" layoutY="54.0" prefHeight="30.0" prefWidth="156.0" styleClass="label-dark" stylesheets="@style.css" text="BARCODE" textAlignment="CENTER">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Label fx:id="currentLabel" layoutX="47.0" layoutY="95.0" prefHeight="29.0" prefWidth="131.0" stylesheets="@style.css" text="5905308704412" textOverrun="CLIP">
+      <Label fx:id="currentLabel" layoutX="34.0" layoutY="93.0" prefHeight="29.0" prefWidth="156.0" stylesheets="@style.css" text="No barcode yet" textOverrun="CLIP">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Button fx:id="cancelButton" layoutX="47.0" layoutY="345.0" mnemonicParsing="false" onMouseClicked="#cancelClicked" prefHeight="39.0" prefWidth="122.0" styleClass="smallButton" stylesheets="@style.css" text="ANULUJ">
+      <Button fx:id="cancelButton" layoutX="38.0" layoutY="345.0" mnemonicParsing="false" onMouseClicked="#cancelClicked" prefHeight="39.0" prefWidth="271.0" styleClass="smallButton" stylesheets="@style.css" text="CANCEL">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
-      <Button fx:id="fixButton" layoutX="246.0" layoutY="345.0" mnemonicParsing="false" onMouseClicked="#fixClicked" prefHeight="39.0" prefWidth="122.0" styleClass="smallButton" stylesheets="@style.css" text="POPRAW">
+      <Button fx:id="fixButton" layoutX="34.0" layoutY="152.0" mnemonicParsing="false" onMouseClicked="#fixClicked" prefHeight="39.0" prefWidth="156.0" styleClass="smallButton" stylesheets="@style.css" text="CORRECT BARCODE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
-      <Button fx:id="nextButton" onMouseClicked="#nextClicked" layoutX="437.0" layoutY="345.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="122.0" styleClass="smallButton" text="NASTĘPNY">
+      <Button fx:id="nextButton" layoutX="313.0" layoutY="345.0" mnemonicParsing="false" onMouseClicked="#nextClicked" prefHeight="39.0" prefWidth="257.0" styleClass="smallButton" text="SAVE &amp; SCAN NEXT">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
-      <Button fx:id="dateButton" layoutX="57.0" layoutY="222.0" mnemonicParsing="false" onMouseClicked="#dateClicked" prefHeight="39.0" prefWidth="122.0" styleClass="smallButton" stylesheets="@style.css" text="ZESKANUJ DATĘ">
+      <Button fx:id="dateButton" layoutX="39.0" layoutY="278.0" mnemonicParsing="false" onMouseClicked="#dateClicked" prefHeight="39.0" prefWidth="156.0" styleClass="smallButton" stylesheets="@style.css" text="SCAN DATE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
-      <Label layoutX="43.0" layoutY="134.0" prefHeight="30.0" prefWidth="149.0" styleClass="label-dark" stylesheets="@style.css" text="OBECNA DATA" textAlignment="CENTER">
+      <Label layoutX="34.0" layoutY="200.0" prefHeight="30.0" prefWidth="156.0" styleClass="label-dark" stylesheets="@style.css" text="EXPIRE DATE" textAlignment="CENTER">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <DatePicker fx:id="datePicker" layoutX="31.0" layoutY="179.0" />
+      <DatePicker fx:id="datePicker" layoutX="38.0" layoutY="237.0" prefHeight="25.0" prefWidth="156.0" />
    </children>
 </AnchorPane>

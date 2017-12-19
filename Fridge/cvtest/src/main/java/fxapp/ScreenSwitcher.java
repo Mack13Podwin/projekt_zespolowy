@@ -29,7 +29,7 @@ public class ScreenSwitcher {
     }
 
     public void comeBackToScanningScreen() {
-        scanningScreenController.setCurrentCode(codeCorrectionController.getCode());
+        scanningScreenController.setLastCode(codeCorrectionController.getCode());
         switchToScreen(Screens.SCANNING_SCREEN);
     }
 
@@ -61,7 +61,7 @@ public class ScreenSwitcher {
     void switchToScanningScreen(IScreen exitedScreen, ScanningScreenController.ScanOperationType operationType) {
         ScanningScreenController controller=(ScanningScreenController) (screens.get(Screens.SCANNING_SCREEN));
         controller.setOperationType(operationType);
-        controller.setCurrentCode(((Integer)(ThreadLocalRandom.current().nextInt())).toString());
+        //controller.setLastCode(((Integer)(ThreadLocalRandom.current().nextInt())).toString());
         switchToScreen(Screens.SCANNING_SCREEN);
 
 

@@ -12,6 +12,7 @@ public class BarcodeUtils {
     LinkedList<String> readbarcodes = new LinkedList<>();
     boolean clear = false;
     int noCodeCount=0;
+    String currentCode;
     public static String readEAN13Code(BufferedImage image) {
         BinaryBitmap bitmap = null;
         Result result = null;
@@ -57,7 +58,8 @@ public class BarcodeUtils {
             view.setCurrentGreen();
             if (readbarcodes.size() > 7) {
                 readbarcodes.removeLast();
-                view.setLastCode(view.getCurrent());
+                view.setLastCode(currentCode);
+                currentCode=popular;
                 view.setCurrentCode(popular);
             }
 
@@ -67,6 +69,7 @@ public class BarcodeUtils {
             noCodeCount++;
             if(noCodeCount>10){
                 readbarcodes.clear();
+                currentCode="no code yet";
                 view.setCurrentCode("no code yet");
             }
 //                clear=true;

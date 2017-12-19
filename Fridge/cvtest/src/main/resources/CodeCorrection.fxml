@@ -16,17 +16,17 @@
             <Font size="18.0" />
          </font>
       </TextField>
-      <Label layoutX="218.0" layoutY="35.0" prefHeight="40.0" prefWidth="166.0" styleClass="label-dark" stylesheets="@style.css" text="POPRAW KOD">
+      <Label layoutX="203.0" layoutY="36.0" prefHeight="40.0" prefWidth="196.0" styleClass="label-dark" stylesheets="@style.css" text="CORRECT CODE">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <Button layoutX="55.0" layoutY="343.0" mnemonicParsing="false" onMouseClicked="#cancelClick" styleClass="smallButton" stylesheets="@style.css" text="ANULUJ">
+      <Button layoutX="55.0" layoutY="343.0" mnemonicParsing="false" onMouseClicked="#cancelClick" styleClass="smallButton" stylesheets="@style.css" text="CANCEL">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Button>
-      <Button layoutX="433.0" layoutY="343.0" mnemonicParsing="false" onMouseClicked="#accept" prefHeight="39.0" prefWidth="116.0" styleClass="smallButton" stylesheets="@style.css" text="AKCEPTUJ">
+      <Button layoutX="433.0" layoutY="343.0" mnemonicParsing="false" onMouseClicked="#accept" prefHeight="39.0" prefWidth="116.0" styleClass="smallButton" stylesheets="@style.css" text="ACCEPT">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
@@ -44,57 +44,57 @@
             <RowConstraints maxHeight="100.0" minHeight="0.0" prefHeight="60.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button onMouseClicked="#keyboardButtonClicked" mnemonicParsing="false" styleClass="keyboardButton" stylesheets="@style.css" text="1">
+            <Button mnemonicParsing="false" onMouseClicked="#keyboardButtonClicked" styleClass="keyboardButton" stylesheets="@style.css" text="1">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Button>
-            <Button onMouseClicked="#keyboardButtonClicked" mnemonicParsing="false" prefHeight="39.0" prefWidth="35.0" styleClass="keyboardButton" stylesheets="@style.css" text="2" GridPane.columnIndex="1">
+            <Button mnemonicParsing="false" onMouseClicked="#keyboardButtonClicked" prefHeight="39.0" prefWidth="35.0" styleClass="keyboardButton" stylesheets="@style.css" text="2" GridPane.columnIndex="1">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Button>
-            <Button onMouseClicked="#keyboardButtonClicked" mnemonicParsing="false" prefHeight="39.0" prefWidth="26.0" styleClass="keyboardButton" stylesheets="@style.css" text="3" GridPane.columnIndex="2">
+            <Button mnemonicParsing="false" onMouseClicked="#keyboardButtonClicked" prefHeight="39.0" prefWidth="26.0" styleClass="keyboardButton" stylesheets="@style.css" text="3" GridPane.columnIndex="2">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Button>
-            <Button onMouseClicked="#keyboardButtonClicked" mnemonicParsing="false" styleClass="keyboardButton" stylesheets="@style.css" text="4" GridPane.rowIndex="1">
+            <Button mnemonicParsing="false" onMouseClicked="#keyboardButtonClicked" styleClass="keyboardButton" stylesheets="@style.css" text="4" GridPane.rowIndex="1">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Button>
-            <Button onMouseClicked="#keyboardButtonClicked" mnemonicParsing="false" styleClass="keyboardButton" stylesheets="@style.css" text="5" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <Button mnemonicParsing="false" onMouseClicked="#keyboardButtonClicked" styleClass="keyboardButton" stylesheets="@style.css" text="5" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Button>
-            <Button onMouseClicked="#keyboardButtonClicked" mnemonicParsing="false" prefHeight="39.0" prefWidth="34.0" styleClass="keyboardButton" stylesheets="@style.css" text="6" GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <Button mnemonicParsing="false" onMouseClicked="#keyboardButtonClicked" prefHeight="39.0" prefWidth="34.0" styleClass="keyboardButton" stylesheets="@style.css" text="6" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Button>
-            <Button onMouseClicked="#keyboardButtonClicked" mnemonicParsing="false" styleClass="keyboardButton" stylesheets="@style.css" text="7" GridPane.rowIndex="2">
+            <Button mnemonicParsing="false" onMouseClicked="#keyboardButtonClicked" styleClass="keyboardButton" stylesheets="@style.css" text="7" GridPane.rowIndex="2">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Button>
-            <Button onMouseClicked="#keyboardButtonClicked" mnemonicParsing="false" styleClass="keyboardButton" stylesheets="@style.css" text="8" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <Button mnemonicParsing="false" onMouseClicked="#keyboardButtonClicked" styleClass="keyboardButton" stylesheets="@style.css" text="8" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Button>
-            <Button onMouseClicked="#keyboardButtonClicked" mnemonicParsing="false" styleClass="keyboardButton" stylesheets="@style.css" text="9" GridPane.columnIndex="2" GridPane.rowIndex="2">
+            <Button mnemonicParsing="false" onMouseClicked="#keyboardButtonClicked" styleClass="keyboardButton" stylesheets="@style.css" text="9" GridPane.columnIndex="2" GridPane.rowIndex="2">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Button>
-            <Button onMouseClicked="#keyboardButtonClicked" mnemonicParsing="false" styleClass="keyboardButton" stylesheets="@style.css" text="0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <Button mnemonicParsing="false" onMouseClicked="#keyboardButtonClicked" styleClass="keyboardButton" stylesheets="@style.css" text="0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Button>
-            <Button onMouseClicked="#backspaceClicked"  mnemonicParsing="false" prefHeight="45.0" prefWidth="46.0" styleClass="keyboardButton" stylesheets="@style.css" text="⌫" GridPane.columnIndex="2" GridPane.rowIndex="3">
+            <Button mnemonicParsing="false" onMouseClicked="#backspaceClicked" prefHeight="45.0" prefWidth="46.0" styleClass="keyboardButton" stylesheets="@style.css" text="⌫" GridPane.columnIndex="2" GridPane.rowIndex="3">
                <font>
                   <Font size="14.0" />
                </font>

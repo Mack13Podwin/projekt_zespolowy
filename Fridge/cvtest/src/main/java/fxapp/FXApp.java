@@ -16,7 +16,7 @@ public class FXApp extends Application {
     private ScreenSwitcher screenSwitcher;
     public static void main(String[] args) {
         CVUtils cvUtils = new CVUtils();//potrzebne do zaladowania bibliotek opencv
-        Gson gson=new Gson();
+
 
         launch(args);
     }
@@ -52,6 +52,7 @@ public class FXApp extends Application {
             //ScreenSwitcher.rootPane=rootLayout;
             // Show the scene containing the root layout.
             rootLayout=new AnchorPane();
+            rootLayout.setPrefSize(600,400);
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
             //primaryStage.setFullScreen(true);

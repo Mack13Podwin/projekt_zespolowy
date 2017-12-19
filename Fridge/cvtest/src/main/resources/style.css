@@ -21,3 +21,6 @@
 .listView{
     -fx-background-color: rgb(243, 243, 243)
 }
+.ledLabel{
+    -fx-background-radius: 15 15 15 15
+}

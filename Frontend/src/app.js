@@ -4,6 +4,7 @@
     angular
         .module('app', ['ngRoute',
             'ngStorage',
+            'app.message',
             'app.login',
             'app.remindPassword',
             'app.changePassword',

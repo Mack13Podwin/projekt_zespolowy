@@ -5,6 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="node_modules/angular-growl-v2/build/angular-growl.min.css">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="src/suggestedRecipe/suggestedRecipe.css">
   <link rel="import" href="src/home/home.html">
@@ -48,6 +49,7 @@
                 <ul class="dropdown-menu">
                   <li><a href="#changeLogin">Change Login</a></li>
                   <li><a href="#changePassword">Change Password</a></li>
+                  <li><a href="#setEmail">Change Email</a></li>
                 </ul>
             </li>
             <li><a ng-href='#login' ng-click="vm.logout()"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
@@ -60,6 +62,8 @@
       
     </div>
   </nav>
+
+  <div growl></div>
 
   <div class="col-sm-12 text-left">
       <ng-view ></ng-view>
@@ -74,6 +78,7 @@
 <script src="node_modules/ngstorage/ngStorage.min.js"></script>
 <script src="node_modules/angular-animate/angular-animate.js"></script>
 <script src="node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js"></script>
+<script src="node_modules/angular-growl-v2/build/angular-growl.min.js"></script>
 <!--moduł app-->
 <script src="src/app.js"></script>
 <script src="src/app.run.js"></script>
@@ -115,8 +120,12 @@
 <script src="src/changeLogin/changeLogin.controller.js"></script>
 
 <!--email change-->
-<script src="src/setEmail/setEmail.controller.js"></script>
 <script src="src/setEmail/setEmail.module.js"></script>
+<script src="src/setEmail/setEmail.controller.js"></script>
+
+<!--messages-->
+<script src="src/messages/message.module.js"></script>
+<script src="src/messages/message.service.js"></script>
 
 </body>
 </html>

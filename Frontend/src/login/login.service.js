@@ -12,6 +12,7 @@
             getUserFridgeId: getUserFridgeId,
             getUserToken: getUserToken,
             setUser: setUser,
+            firstLogin: firstLogin,
             loggedIn: loggedIn
         }
         return service;
@@ -36,6 +37,10 @@
         function setUser(u){
             user=u;
             $sessionStorage.user=user;
+        }
+
+        function firstLogin(){
+            user.firstLogin=false;
         }
 
         function loggedIn(){

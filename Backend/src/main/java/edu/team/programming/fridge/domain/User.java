@@ -12,10 +12,13 @@ import java.io.Serializable;
 @Document(collection="users")
 public class User implements Serializable{
     private String id;
+    @Setter
     private String name;
+    @Setter
     private String password;
     private String fridgeid;
     private String country;
+    @Setter
     private boolean firstLogin;
     @Setter
     private String email;

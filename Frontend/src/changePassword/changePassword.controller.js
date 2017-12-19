@@ -5,25 +5,32 @@
         .module('app.changePassword')
         .controller('ChangePasswordController', ChangePasswordController);
 
-    ChangePasswordController.$inject=['$scope','$http','$location'];
+    ChangePasswordController.$inject=['$scope','$http','$location', 'loginService'];
 
-    function ChangePasswordController($scope,$http,$location){
+    function ChangePasswordController($scope,$http,$location, loginService){
         var vm=this;
-
+        vm.submit=submit;
+        vm.user={
+            oldpassword: "",
+            newpassword: ""
+        };
+        vm.repeatnewpassword= ""
         init();
         
         //////////////////////////////
         
-        function init(){
-            vm.submit=submit
-          
-        }
-        function submit(isValid){
-            
-            // $http.get('/backend/remind/'+vm.login).then(function(res){
-            //     growl.success('wysłano maila z hasłem')
-            //     $location.path('/home')
-            // })
+        function init(){ }
+        function submit(){
+            if(vm.user.newpassword==vm.repeatnewpassword){
+                $http({method: 'PATCH', url: 'backend/users/password/change', headers: {'authorization': loginService.getUserToken()}, data: vm.user})
+                    .then(function(response){
+                        $location.path('/home');
+                    }).catch(function(err){
+                        console.log(err);
+                    })
+            }else{
+                console.log("Passwords don't match");
+            }
         }
 
     }

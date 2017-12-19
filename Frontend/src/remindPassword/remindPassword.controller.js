@@ -5,25 +5,29 @@
         .module('app.remindPassword')
         .controller('RemindPasswordController', RemindPasswordController);
 
-    RemindPasswordController.$inject=['$scope','$http','$location'];
+    RemindPasswordController.$inject=['$scope','$http','$location', 'loginService'];
 
-    function RemindPasswordController($scope,$http,$location){
+    function RemindPasswordController($scope,$http,$location, loginService){
         var vm=this;
-
+        vm.submit=submit;
+        vm.user={
+            email: "",
+            name: ""
+        }
         init();
         
         //////////////////////////////
         
-        function init(){
-            vm.submit=submit
-          
-        }
-        function submit(isValid){
+        function init(){ }
+
+        function submit(){
             
-            // $http.get('/backend/remind/'+vm.login).then(function(res){
-            //     growl.success('wysłano maila z hasłem')
-            //     $location.path('/home')
-            // })
+            $http({method: 'POST', url: 'backend/users/remind', data: vm.user})
+                .then(function(response){
+                    console.log('Password reminded');
+                }).catch(function(err){
+                    console.log(err);
+                })
         }
 
     }

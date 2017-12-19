@@ -8,7 +8,7 @@
             'app.remindPassword',
             'app.changePassword',
             'app.changeLogin',
-            //'app.setEmail',
+            'app.setEmail',
             'app.fridgeItems',
             'app.shoppingList',
             'app.suggestedRecipe',

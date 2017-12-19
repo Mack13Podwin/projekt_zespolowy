@@ -10,6 +10,7 @@
         var service={
             login: login,
             getUserFridgeId: getUserFridgeId,
+            getUserToken: getUserToken,
             setUser: setUser,
             loggedIn: loggedIn
         }
@@ -26,6 +27,10 @@
 
         function getUserFridgeId(){
             return user.fridgeid;
+        }
+
+        function getUserToken(){
+            return user.token;
         }
 
         function setUser(u){

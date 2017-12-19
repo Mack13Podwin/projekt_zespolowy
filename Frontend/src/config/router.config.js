@@ -18,11 +18,11 @@
                 controller: 'RemindPasswordController',
                 controllerAs: 'vm'
             })
-            /*.when('/setEmail', {
+            .when('/setEmail', {
                 templateUrl: 'src/setEmail/setEmail.html',
                 controller: 'SetEmailController',
                 controllerAs: 'vm'
-            })*/
+            })
             .when('/changePassword', {
                 templateUrl: 'src/changePassword/changePassword.html',
                 controller: 'ChangePasswordController',

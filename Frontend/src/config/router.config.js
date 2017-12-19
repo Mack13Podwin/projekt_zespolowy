@@ -50,6 +50,8 @@
             })
             .when('/suggestedRecipe', {
                 templateUrl: 'src/suggestedRecipe/suggestedRecipe.html',
+                controller: 'SuggestedRecipeController',
+                controllerAs: 'vm'
             })
             .otherwise({
                 redirectTo: '/home'

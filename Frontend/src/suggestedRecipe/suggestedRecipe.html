@@ -1,26 +1,44 @@
-<div class="container-fluid text-center">    
+<div class="container-fluid text-center"> 
+<div class="col-sm-12">
+        <hr>
+</div>
     <div class="row content">
         <div class="col-sm-2 sidenav">
                 <ul class="nav nav-pills nav-stacked">
-                        <li><h3>Recipe:</h3></li>
-                    <br>
+                        <li><h3><b>Recipes:</b></h3></li>
+                        <li ng-repeat="recipe in vm.recipesLeft">
+                                <a ng-href="{{recipe.href}}"><h4><b>{{recipe.desc}}</b></h4></a>
+                        </li>
                 </ul>
         </div>
-        <div class="col-sm-6 text-center">
-                <img src="src/suggestedRecipe/almond_cherry_cupcakes-wallpaper-1280x720.jpg" width="500" height="300"/><br/>
-                <br>
-                <img src="src/suggestedRecipe/green_fruits-wallpaper-1280x720.jpg" width="500" height="300"/><br/>
+        <div class="col-sm-6">
+        <div class="row" ng-repeat="recipe in vm.recipesColumns">
+                <div class="col-sm-6 text-center">
+                        <div class="thumbnail">
+                        <a ng-href="{{recipe[0].href}}">
+                                <img ng-src="{{recipe[0].img}}"/></a>
+                        <a ng-href="{{recipe[0].href}}">
+                                <h4><b>{{recipe[0].desc}}</b></h4></a>
+                        </div>
+                </div>
+                <div class="col-sm-6 text-center">
+                        <div class="thumbnail">
+                        <a ng-href="{{recipe[1].href}}">
+                                <img ng-src="{{recipe[1].img}}"/></a>
+                        <a ng-href="{{recipe[1].href}}">
+                                <h4><b>{{recipe[1].desc}}</b></h4></a>
+                        </div>
+                </div>
+        </div>
         </div>
         <div class="col-sm-4 sidenav">
                 <ul class="nav nav-pills nav-stacked">
-                        <li><h3>Recommended:</h3></li>
-                        <li>
-                                <img src="src/suggestedRecipe/pancakes_and_syrup-wallpaper-1280x720.jpg" width="370" height="250"/><br/>
+                        <li><h3><b>Recommended:</b></h3></li>
+                        <li ng-repeat="recipe in vm.recommendedRecipes">
+                                <a ng-href="{{recipe.href}}"><img ng-src="{{recipe.img}}" width="320" height="240"/></a>
+                                <a ng-href="{{recipe.href}}"><h4><b>{{recipe.desc}}</b></h4></a>
                         </li>
                         <br>
-                        <li>
-                                <img src="src/suggestedRecipe/fruits_cone-wallpaper-1280x720.jpg" width="370" height="250"/><br/>
-                        </li>
                 </ul>
         </div>
     </div>

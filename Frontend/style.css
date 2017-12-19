@@ -7,7 +7,10 @@
 
 .background{
     /* background-color; */
-    background-image: url("img/e0a530fb4ece2174390452ec2e59360b.jpg")
+    background-image: url("img/e0a530fb4ece2174390452ec2e59360b.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center; 
 }
 
 .navbar{

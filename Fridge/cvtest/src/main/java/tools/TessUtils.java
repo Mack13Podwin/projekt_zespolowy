@@ -43,8 +43,11 @@ public class TessUtils {
         int i = 0;
         int j = 0;
 
-        String[][] symbols = new String[100][10];
-        double[][] confidences = new double[100][10];
+        String[][] symbols = new String[1000][10];
+        for (int it=0;it<1000;it++)
+            for (int it2=0;it2<10;it2++)
+                symbols[it][it2]="";
+
         if (ri != null) {
             do {
                 Pointer symbol = TessAPI1.TessResultIteratorGetUTF8Text(ri, level);
@@ -53,7 +56,6 @@ public class TessUtils {
                     do {
                         String choice = TessAPI1.TessChoiceIteratorGetUTF8Text(ci);
                         symbols[i][j] = choice;
-                        confidences[i][j] = TessAPI1.TessChoiceIteratorConfidence(ci);
                         j++;
                     } while (TessAPI1.TessChoiceIteratorNext(ci) == ITessAPI.TRUE);
                     TessAPI1.TessChoiceIteratorDelete(ci);
@@ -243,7 +245,65 @@ public class TessUtils {
         text = getYears10(text, symbols, jmax);
         return text;
     }
-    public String getText(BufferedImage image)
+    private String getText7(String text, String[][] symbols, int jmax) {
+        text.concat("30.");
+        for(int it = 0; it<jmax;it++)
+        {
+            if(Objects.equals(symbols[0][it], "0"))
+            {
+                text.concat("0");
+                for(int it2=0;it2<jmax;it2++)
+                {
+                    if(symbols[1][it2].matches("[1-9]"))
+                    {
+                        text.concat(symbols[1][it2]);
+                        if(Objects.equals(symbols[1][it2], "2"))
+                            text = "28.02";
+                        break;
+                    }
+                }
+                if(text.length()!=5)
+                    return "error";
+                break;
+            }
+            else if(Objects.equals(symbols[0][it], "1"))
+            {
+                text.concat("1");
+                for(int it2=0;it2<jmax;it2++)
+                {
+                    if(symbols[1][it2].matches("[0-2]")) {
+                        text.concat(symbols[1][it2]);
+                        break;
+                    }
+                }
+                if(text.length()!=5)
+                    return "error";
+                break;
+            }
+        }
+        for(int it=0;it<jmax;it++)
+        {
+            if(symbols[2][it].matches(".|/|-"))
+            {
+                text.concat(".20");
+                for(int k=0;k<jmax;k++)
+                    for(int l=0;l<jmax;l++)
+                    {
+                        String year = symbols[5][k].concat(symbols[6][l]);
+                        if(Integer.parseInt(year)>=17)
+                        {
+                            text.concat(year);
+                            break;
+                        }
+                    }
+                break;
+            }
+        }
+        if(text.length()!=10)
+            return "error";
+        return text;
+    }
+    String getText(BufferedImage image)
     {
         ByteBuffer buf = ImageIOHelper.convertImageData(image);
         int bpp = image.getColorModel().getPixelSize();
@@ -260,8 +320,10 @@ public class TessUtils {
         int j = 0;
         int jmax = 0;
 
-        String[][] symbols = new String[100][10];
-        double[][] confidences = new double[100][10];
+        String[][] symbols = new String[1000][10];
+        for (int it=0;it<1000;it++)
+            for (int it2=0;it2<10;it2++)
+                symbols[it][it2]="";
         if (ri != null) {
             do {
                 Pointer symbol = TessAPI1.TessResultIteratorGetUTF8Text(ri, level);
@@ -270,7 +332,6 @@ public class TessUtils {
                     do {
                         String choice = TessAPI1.TessChoiceIteratorGetUTF8Text(ci);
                         symbols[i][j] = choice;
-                        confidences[i][j] = TessAPI1.TessChoiceIteratorConfidence(ci);
                         j++;
                         if (jmax < j)
                             jmax = j;
@@ -282,64 +343,7 @@ public class TessUtils {
                 TessAPI1.TessDeleteText(symbol);
             } while (TessAPI1.TessResultIteratorNext(ri, level) == ITessAPI.TRUE);
             if(i==7)
-            {
-                String text = "30.";
-                for(int it = 0; it<jmax;it++)
-                {
-                    if(Objects.equals(symbols[0][it], "0"))
-                    {
-                        text.concat("0");
-                        for(int it2=0;it2<jmax;it2++)
-                        {
-                            if(symbols[1][it2].matches("[1-9]"))
-                            {
-                                text.concat(symbols[1][it2]);
-                                if(Objects.equals(symbols[1][it2], "2"))
-                                    text = "28.02";
-                                break;
-                            }
-                        }
-                        if(text.length()!=5)
-                            return "error";
-                        break;
-                    }
-                    else if(Objects.equals(symbols[0][it], "1"))
-                    {
-                        text.concat("1");
-                        for(int it2=0;it2<jmax;it2++)
-                        {
-                            if(symbols[1][it2].matches("[0-2]")) {
-                                text.concat(symbols[1][it2]);
-                                break;
-                            }
-                        }
-                        if(text.length()!=5)
-                            return "error";
-                        break;
-                    }
-                }
-                for(int it=0;it<jmax;it++)
-                {
-                    if(symbols[2][it].matches(".|/|-"))
-                    {
-                        text.concat(".20");
-                        for(int k=0;k<jmax;k++)
-                            for(int l=0;l<jmax;l++)
-                            {
-                                String year = symbols[5][k].concat(symbols[6][l]);
-                                if(Integer.parseInt(year)>=17)
-                                {
-                                    text.concat(year);
-                                    break;
-                                }
-                            }
-                        break;
-                    }
-                }
-                if(text.length()!=10)
-                    return "error";
-                return text;
-            }
+                return getText7("",symbols,jmax);
             else if(i==8)
                 return getText8("",symbols,jmax);
             else if (i==10)
@@ -361,6 +365,9 @@ public class TessUtils {
                 for(int it=0; it<allMatches.size();it++)
                 {
                     String[][] sym2 = new String[11][10];
+                    for (int k=0;k<11;k++)
+                        for (int l=0;l<10;l++)
+                            symbols[k][l]="";
                     for(int it2=mIndex.get(it);it2<mIndex.get(it)+10;it2++)
                     {
                         int k = it2-mIndex.get(it);
@@ -371,9 +378,55 @@ public class TessUtils {
                     if(!r.equals("error"))
                         return r;
                 }
-                return "error";
+                allMatches.clear();
+                mIndex.clear();
+                Matcher m2 = Pattern.compile("\\d{2}(-|/|.)\\d{2}(-|/|.)\\d{2}").matcher(text);
+                while (m2.find()) {
+                    allMatches.add(m2.group());
+                    mIndex.add(m2.start());
+                }
+                for(int it=0; it<allMatches.size();it++)
+                {
+                    String[][] sym2 = new String[8][10];
+                    for (int k=0;k<8;k++)
+                        for (int l=0;l<10;l++)
+                            symbols[k][l]="";
+                    for(int it2=mIndex.get(it);it2<mIndex.get(it)+8;it2++)
+                    {
+                        int k = it2-mIndex.get(it);
+                        for(int it3 = 0; it3<jmax;it3++)
+                            sym2[k][it3]=symbols[it2][it3];
+                    }
+                    String r = getText7(allMatches.get(it),sym2,jmax);
+                    if(!r.equals("error"))
+                        return r;
+                }
+                allMatches.clear();
+                mIndex.clear();
+                Matcher m3 = Pattern.compile("\\d{2}(-|/|.)\\d{4}").matcher(text);
+                while (m3.find()) {
+                    allMatches.add(m3.group());
+                    mIndex.add(m3.start());
+                }
+                for(int it=0; it<allMatches.size();it++)
+                {
+                    String[][] sym2 = new String[9][10];
+                    for (int k=0;k<9;k++)
+                        for (int l=0;l<10;l++)
+                            symbols[k][l]="";
+                    for(int it2=mIndex.get(it);it2<mIndex.get(it)+9;it2++)
+                    {
+                        int k = it2-mIndex.get(it);
+                        for(int it3 = 0; it3<jmax;it3++)
+                            sym2[k][it3]=symbols[it2][it3];
+                    }
+                    String r = getText8(allMatches.get(it),sym2,jmax);
+                    if(!r.equals("error"))
+                        return r;
+                }
             }
         }
-        return null;
+        return "error";
     }
+
 }

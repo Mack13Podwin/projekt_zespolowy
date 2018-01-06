@@ -73,7 +73,7 @@ public class TessUtils {
         return null;
     }
 
-    String getMostProbableText(BufferedImage image)
+    public String getMostProbableText(BufferedImage image)
     {
         ITesseract instance = new Tesseract();
         instance.setDatapath(Paths.get("tessdata").toAbsolutePath().toString());
@@ -89,7 +89,7 @@ public class TessUtils {
         }
         return null;
     }
-    public static boolean isNumericRegex(String str) {
+    private static boolean isNumericRegex(String str) {
         if (str == null)
             return false;
         return str.matches("-?\\d+");
@@ -175,11 +175,14 @@ public class TessUtils {
                         {
                             String year = symbols[6][k];
                             year = year.concat((symbols[7][l]));
-                            if(Integer.parseInt(year)>=16)
-                            {
-                                text=text.concat(year);
-                                break;
+                            if(isNumericRegex(year)) {
+                                if (Integer.parseInt(year) >= 16) {
+                                    text = text.concat(year);
+                                    break;
+                                }
                             }
+                            else
+                                return "error";
                         }
                     }
                     if(text.length()==10)
@@ -202,10 +205,14 @@ public class TessUtils {
                         if (symbols[8][k] != null && symbols[9][l] != null) {
                             String year = symbols[8][k];
                             year = year.concat((symbols[9][l]));
-                            if (Integer.parseInt(year) >= 16) {
-                                text = text.concat(year);
-                                break;
+                            if(isNumericRegex(year)) {
+                                if (Integer.parseInt(year) >= 16) {
+                                    text = text.concat(year);
+                                    break;
+                                }
                             }
+                            else
+                                return "error";
                         }
                     }
                     if (text.length() == 10)
@@ -299,11 +306,14 @@ public class TessUtils {
                         String year = symbols[5][k].concat(symbols[6][l]);
                         if(isNumericRegex(year))
                         {
-                            if(Integer.parseInt(year)>=16)
-                            {
-                                text.concat(year);
-                                break;
+                            if(isNumericRegex(year)) {
+                                if (Integer.parseInt(year) >= 16) {
+                                    text.concat(year);
+                                    break;
+                                }
                             }
+                            else
+                                return "error";
                         }
                         else
                             return "error";
@@ -441,7 +451,7 @@ public class TessUtils {
         }
         return "error";
     }
-    Date getDate(BufferedImage image)
+    public Date getDate(BufferedImage image)
     {
         String text = getText(image);
         if(!text.equals("error"))

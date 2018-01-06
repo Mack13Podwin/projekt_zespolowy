@@ -36,6 +36,19 @@ public class Recommender {
         predict(data);
     }
 
+    public List<Rating>getRatings(String fridgeid){
+        List<Rating> ratings=new ArrayList<>();
+        for (String type: outputData.get(fridgeid).keySet()){
+            Rating rating=Rating.builder()
+                    .fridgeid(fridgeid)
+                    .type(type)
+                    .rating(outputData.get(fridgeid).get(type))
+                    .build();
+            ratings.add(rating);
+        }
+        return ratings;
+    }
+
     private void buildDifferencesMatrix(HashMap<String,HashMap<String,Double>> data){
         for (HashMap<String, Double> user : data.values()) {
             for (Map.Entry<String, Double> e : user.entrySet()) {
@@ -82,7 +95,7 @@ public class Recommender {
                         double finalValue = predictedValue * freq.get(k).get(j);
                         uPred.put(k, uPred.get(k) + finalValue);
                         uFreq.put(k, uFreq.get(k) + freq.get(k).get(j));
-                    } catch (NullPointerException ignored){
+                    } catch (NullPointerException ignored) {
 
                     }
                 }
@@ -98,6 +111,5 @@ public class Recommender {
             }
             outputData.put(e.getKey(), clean);
         }
-        System.out.println(outputData);
     }
 }

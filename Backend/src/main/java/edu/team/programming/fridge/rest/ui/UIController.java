@@ -56,10 +56,13 @@ public class UIController {
         List<Rating>ratings=
                 ratingsRepository.findByFridgeidAndRatingGreaterThanEqualOrderByRatingDesc(fridgeId,
                         average.getAverage());
+        ratings.addAll(recommender.getRatings(fridgeId));
         List<Rating> result= new ArrayList<>();
         for (Rating rating:ratings){
             if(productRepository.findByFridgeidAndTypeAndRemovingdateIsNull(fridgeId,rating.getType()).size()==0){
-                result.add(rating);
+                if(!result.contains(rating)&&rating.getRating()>0) {
+                    result.add(rating);
+                }
             }
         }
         return result;

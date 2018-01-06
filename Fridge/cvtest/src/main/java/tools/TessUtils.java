@@ -9,7 +9,11 @@ import net.sourceforge.tess4j.util.ImageIOHelper;
 import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
 import java.nio.file.Paths;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
@@ -85,16 +89,19 @@ public class TessUtils {
         }
         return null;
     }
+    public static boolean isNumericRegex(String str) {
+        if (str == null)
+            return false;
+        return str.matches("-?\\d+");
+    }
     String getDays(String text, String[][]symbols, int jmax)
     {
         for(int it = 0; it<jmax;it++) {
             if (Objects.equals(symbols[0][it], "3")) {
                 text = text.concat("3");
-                System.out.println(text);
                 for (int it2 = 0; it2 < jmax; it2++) {
                     if (symbols[1][it2].matches("[0-1]")) {
                         text = text.concat(symbols[1][it2]);
-                        System.out.println(text);
                         break;
                     }
                 }
@@ -157,9 +164,9 @@ public class TessUtils {
     {
         for(int it=0;it<jmax;it++)
         {
-            if(symbols[5][it].matches(".|/|-"))
+            if(symbols[5][it].matches("[.]|/|-"))
             {
-                text=text.concat(".20");
+                text=text.concat("/20");
                 for(int k=0;k<jmax;k++)
                 {
                     for(int l=0;l<jmax;l++)
@@ -168,7 +175,7 @@ public class TessUtils {
                         {
                             String year = symbols[6][k];
                             year = year.concat((symbols[7][l]));
-                            if(Integer.parseInt(year)>=17)
+                            if(Integer.parseInt(year)>=16)
                             {
                                 text=text.concat(year);
                                 break;
@@ -188,14 +195,14 @@ public class TessUtils {
     String getYears10(String text,String[][] symbols, int jmax)
     {
         for (int it = 0; it < jmax; it++) {
-            if (symbols[5][it].matches(".|/|-")) {
-                text = text.concat(".20");
+            if (symbols[5][it].matches("[.]|/|-")) {
+                text = text.concat("/20");
                 for (int k = 0; k < jmax; k++) {
                     for (int l = 0; l < jmax; l++) {
                         if (symbols[8][k] != null && symbols[9][l] != null) {
                             String year = symbols[8][k];
                             year = year.concat((symbols[9][l]));
-                            if (Integer.parseInt(year) >= 17) {
+                            if (Integer.parseInt(year) >= 16) {
                                 text = text.concat(year);
                                 break;
                             }
@@ -210,13 +217,13 @@ public class TessUtils {
         return "error";
     }
     String getText8(String text, String[][] symbols, int jmax)
-    {
+    {;
         text = getDays(text, symbols, jmax);
         if (Objects.equals(text, "error"))
             return text;
         for (int it = 0; it < jmax; it++)
-            if (symbols[2][it].matches(".|/|-")) {
-                text = text.concat(".");
+            if (symbols[2][it].matches("[.]|/|-")) {
+                text = text.concat("/");
                 break;
             }
         if (text.length() != 3)
@@ -233,8 +240,8 @@ public class TessUtils {
         if (Objects.equals(text, "error"))
             return text;
         for (int it = 0; it < jmax; it++)
-            if (symbols[2][it].matches(".|/|-")) {
-                text = text.concat(".");
+            if (symbols[2][it].matches("[.]|/|-")) {
+                text = text.concat("/");
                 break;
             }
         if (text.length() != 3)
@@ -246,7 +253,7 @@ public class TessUtils {
         return text;
     }
     private String getText7(String text, String[][] symbols, int jmax) {
-        text.concat("30.");
+        text.concat("30/");
         for(int it = 0; it<jmax;it++)
         {
             if(Objects.equals(symbols[0][it], "0"))
@@ -258,7 +265,7 @@ public class TessUtils {
                     {
                         text.concat(symbols[1][it2]);
                         if(Objects.equals(symbols[1][it2], "2"))
-                            text = "28.02";
+                            text = "28/02";
                         break;
                     }
                 }
@@ -283,18 +290,24 @@ public class TessUtils {
         }
         for(int it=0;it<jmax;it++)
         {
-            if(symbols[2][it].matches(".|/|-"))
+            if(symbols[2][it].matches("[.]|/|-"))
             {
-                text.concat(".20");
+                text.concat("/20");
                 for(int k=0;k<jmax;k++)
                     for(int l=0;l<jmax;l++)
                     {
                         String year = symbols[5][k].concat(symbols[6][l]);
-                        if(Integer.parseInt(year)>=17)
+                        if(isNumericRegex(year))
                         {
-                            text.concat(year);
-                            break;
+                            if(Integer.parseInt(year)>=16)
+                            {
+                                text.concat(year);
+                                break;
+                            }
                         }
+                        else
+                            return "error";
+
                     }
                 break;
             }
@@ -357,7 +370,7 @@ public class TessUtils {
                 }
                 List<String> allMatches = new ArrayList<String>();
                 List<Integer> mIndex = new ArrayList<Integer>();
-                Matcher m = Pattern.compile("\\d{2}(-|/|.)\\d{2}(-|/|.)\\d{4}").matcher(text);
+                Matcher m = Pattern.compile("\\d{2}(-|/|[.])\\d{2}(-|/|[.])\\d{4}").matcher(text);
                 while (m.find()) {
                     allMatches.add(m.group());
                     mIndex.add(m.start());
@@ -374,13 +387,13 @@ public class TessUtils {
                         for(int it3 = 0; it3<jmax;it3++)
                             sym2[k][it3]=symbols[it2][it3];
                     }
-                    String r = getText10(allMatches.get(it),sym2,jmax);
+                    String r = getText10("",sym2,jmax);
                     if(!r.equals("error"))
                         return r;
                 }
                 allMatches.clear();
                 mIndex.clear();
-                Matcher m2 = Pattern.compile("\\d{2}(-|/|.)\\d{2}(-|/|.)\\d{2}").matcher(text);
+                Matcher m2 = Pattern.compile("\\d{2}(-|/|[.])\\d{2}(-|/|[.])\\d{2}").matcher(text);
                 while (m2.find()) {
                     allMatches.add(m2.group());
                     mIndex.add(m2.start());
@@ -397,13 +410,13 @@ public class TessUtils {
                         for(int it3 = 0; it3<jmax;it3++)
                             sym2[k][it3]=symbols[it2][it3];
                     }
-                    String r = getText7(allMatches.get(it),sym2,jmax);
+                    String r = getText8("",sym2,jmax);
                     if(!r.equals("error"))
                         return r;
                 }
                 allMatches.clear();
                 mIndex.clear();
-                Matcher m3 = Pattern.compile("\\d{2}(-|/|.)\\d{4}").matcher(text);
+                Matcher m3 = Pattern.compile("\\d{2}(-|/|[.])\\d{4}").matcher(text);
                 while (m3.find()) {
                     allMatches.add(m3.group());
                     mIndex.add(m3.start());
@@ -420,7 +433,7 @@ public class TessUtils {
                         for(int it3 = 0; it3<jmax;it3++)
                             sym2[k][it3]=symbols[it2][it3];
                     }
-                    String r = getText8(allMatches.get(it),sym2,jmax);
+                    String r = getText7("",sym2,jmax);
                     if(!r.equals("error"))
                         return r;
                 }
@@ -428,5 +441,27 @@ public class TessUtils {
         }
         return "error";
     }
+    Date getDate(BufferedImage image)
+    {
+        String text = getText(image);
+        if(!text.equals("error"))
+        {
+            DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+            try {
+                Date date = df.parse(text);
+                return date;
+            } catch (ParseException e) {
+                e.printStackTrace();
+                Long date = (new Date().getTime()) + (7 * 24 * 3600 * 1000) ;
+                return new Date(date);
+            }
 
+        }
+        else
+        {
+            Long date = (new Date().getTime()) + (7 * 24 * 3600 * 1000) ;
+            return new Date(date);
+        }
+
+    }
 }

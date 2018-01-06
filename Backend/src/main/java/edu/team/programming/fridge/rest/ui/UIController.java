@@ -1,6 +1,7 @@
 package edu.team.programming.fridge.rest.ui;
 
 import edu.team.programming.fridge.ai.RatingCalculator;
+import edu.team.programming.fridge.ai.Recommender;
 import edu.team.programming.fridge.domain.Product;
 import edu.team.programming.fridge.domain.Rating;
 import edu.team.programming.fridge.domain.RatingAverage;
@@ -28,6 +29,9 @@ public class UIController {
     @Autowired
     private RatingsRepository ratingsRepository;
 
+    @Autowired
+    private Recommender recommender;
+
     @RequestMapping(value = "/inside/{fridgeId}", method = RequestMethod.GET)
     public List<Product> getProductsInFridge(@PathVariable String fridgeId){
         System.out.println("Getting products from fridge "+fridgeId);
@@ -42,6 +46,8 @@ public class UIController {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        List<Rating> ratings=ratingsRepository.findAll();
+        recommender.calculateRecommendations(ratings);
         return "OK\n";
     }
     @RequestMapping(value = "/shoppinglist/{fridgeId}", method = RequestMethod.GET)

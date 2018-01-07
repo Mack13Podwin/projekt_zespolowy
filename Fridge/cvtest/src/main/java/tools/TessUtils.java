@@ -224,7 +224,7 @@ public class TessUtils {
         return "error";
     }
     String getText8(String text, String[][] symbols, int jmax)
-    {;
+    {
         text = getDays(text, symbols, jmax);
         if (Objects.equals(text, "error"))
             return text;
@@ -390,7 +390,7 @@ public class TessUtils {
                     String[][] sym2 = new String[11][10];
                     for (int k=0;k<11;k++)
                         for (int l=0;l<10;l++)
-                            symbols[k][l]="";
+                            sym2[k][l]="";
                     for(int it2=mIndex.get(it);it2<mIndex.get(it)+10;it2++)
                     {
                         int k = it2-mIndex.get(it);
@@ -410,10 +410,10 @@ public class TessUtils {
                 }
                 for(int it=0; it<allMatches.size();it++)
                 {
-                    String[][] sym2 = new String[8][10];
-                    for (int k=0;k<8;k++)
+                    String[][] sym2 = new String[9][10];
+                    for (int k=0;k<9;k++)
                         for (int l=0;l<10;l++)
-                            symbols[k][l]="";
+                            sym2[k][l]="";
                     for(int it2=mIndex.get(it);it2<mIndex.get(it)+8;it2++)
                     {
                         int k = it2-mIndex.get(it);
@@ -433,11 +433,11 @@ public class TessUtils {
                 }
                 for(int it=0; it<allMatches.size();it++)
                 {
-                    String[][] sym2 = new String[9][10];
-                    for (int k=0;k<9;k++)
+                    String[][] sym2 = new String[8][10];
+                    for (int k=0;k<8;k++)
                         for (int l=0;l<10;l++)
-                            symbols[k][l]="";
-                    for(int it2=mIndex.get(it);it2<mIndex.get(it)+9;it2++)
+                            sym2[k][l]="";
+                    for(int it2=mIndex.get(it);it2<mIndex.get(it)+7;it2++)
                     {
                         int k = it2-mIndex.get(it);
                         for(int it3 = 0; it3<jmax;it3++)

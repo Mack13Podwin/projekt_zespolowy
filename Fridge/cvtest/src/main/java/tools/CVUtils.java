@@ -1,10 +1,7 @@
 package tools;
 
 import javafx.scene.image.Image;
-import org.opencv.core.Mat;
-import org.opencv.core.MatOfByte;
-import org.opencv.core.Point;
-import org.opencv.core.Size;
+import org.opencv.core.*;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.CLAHE;
 import org.opencv.imgproc.Imgproc;
@@ -123,5 +120,8 @@ public class CVUtils {
         //rotate_bound(frame, dst, 0.0);
         //frame.release();
 
+    }
+    public static void flip(Mat src,Mat dst){
+        Core.flip(src,dst,1);
     }
 }

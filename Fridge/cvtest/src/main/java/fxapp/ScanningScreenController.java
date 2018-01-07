@@ -104,7 +104,9 @@ public class ScanningScreenController implements IScreen, IView, ProductRequestC
                 cam.captureFrame(frame);
                 System.out.println("OK scanned");
                 CVUtils.preprocess(frame, dst);
-                System.out.println((tessUtils.getText(CVUtils.MatToBufferedImage(dst))));
+                CVUtils.flip(dst,frame);
+                //CVUtils.rotate_bound(dst,frame,180);
+                System.out.println((tessUtils.getMostProbableText(CVUtils.MatToBufferedImage(frame))));
 
             } catch (Throwable throwable){
                 System.out.println(throwable.getLocalizedMessage()+'\n');

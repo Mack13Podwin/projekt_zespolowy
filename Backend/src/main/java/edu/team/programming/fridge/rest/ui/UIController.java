@@ -46,21 +46,18 @@ public class UIController {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        List<Rating> ratings=ratingsRepository.findAll();
-        recommender.calculateRecommendations(ratings);
+        List<Product> products=productRepository.findAll();
+        recommender.calculateRecommendations(products);
         return "OK\n";
     }
     @RequestMapping(value = "/shoppinglist/{fridgeId}", method = RequestMethod.GET)
     public List<Rating> getShoppingList(@PathVariable String fridgeId){
         RatingAverage average=ratingsRepository.aggregate(fridgeId).get(0);
-        List<Rating>ratings=
-                ratingsRepository.findByFridgeidAndRatingGreaterThanEqualOrderByRatingDesc(fridgeId,
-                        average.getAverage());
-        ratings.addAll(recommender.getRatings(fridgeId));
+        List<Rating>ratings=recommender.getRatings(fridgeId);
         List<Rating> result= new ArrayList<>();
         for (Rating rating:ratings){
             if(productRepository.findByFridgeidAndTypeAndRemovingdateIsNull(fridgeId,rating.getType()).size()==0){
-                if(!result.contains(rating)&&rating.getRating()>0) {
+                if(!result.contains(rating)&&rating.getRating()>=average.getAverage()) {
                     result.add(rating);
                 }
             }

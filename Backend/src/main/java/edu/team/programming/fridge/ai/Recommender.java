@@ -1,7 +1,10 @@
 package edu.team.programming.fridge.ai;
 
+import edu.team.programming.fridge.domain.Product;
 import edu.team.programming.fridge.domain.Rating;
+import edu.team.programming.fridge.infrastructure.db.RatingsRepository;
 import lombok.Getter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -12,25 +15,28 @@ import java.util.Map;
 @Component
 public class Recommender {
 
+    @Autowired
+    private RatingsRepository ratingsRepository;
     private Map<String,Map<String,Double>> diff=new HashMap<>();
     private Map<String,Map<String,Integer>> freq=new HashMap<>();
     @Getter
     private Map<String,Map<String,Double>> outputData=new HashMap<>();
     private List<String> inputData;
 
-    public void calculateRecommendations(List<Rating> ratings){
+    public void calculateRecommendations(List<Product> products){
         inputData=new ArrayList<>();
         HashMap<String,HashMap<String,Double>> data=new HashMap<>();
-        for (Rating rating:ratings){
-            if(!data.containsKey(rating.getFridgeid())){
-                data.put(rating.getFridgeid(),new HashMap<>());
+        for (Product product:products){
+            if(!data.containsKey(product.getFridgeid())){
+                data.put(product.getFridgeid(),new HashMap<>());
             }
-            if(!inputData.contains(rating.getType())){
-                inputData.add(rating.getType());
+            if(!inputData.contains(product.getType())){
+                inputData.add(product.getType());
             }
-            HashMap<String,Double> r=data.get(rating.getFridgeid());
-            r.put(rating.getType(),rating.getRating());
-            data.replace(rating.getFridgeid(),r);
+            HashMap<String,Double> r=data.get(product.getFridgeid());
+            r.put(product.getType(),ratingsRepository.findByFridgeidAndType(product.getFridgeid(),product.getType())
+                    .get(0).getRating());
+            data.replace(product.getFridgeid(),r);
         }
         buildDifferencesMatrix(data);
         predict(data);
@@ -111,5 +117,6 @@ public class Recommender {
             }
             outputData.put(e.getKey(), clean);
         }
+        System.out.println(outputData);
     }
 }

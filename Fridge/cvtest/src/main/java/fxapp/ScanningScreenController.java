@@ -28,6 +28,8 @@ import tools.http.Response;
 
 
 import java.awt.image.BufferedImage;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
@@ -106,7 +108,10 @@ public class ScanningScreenController implements IScreen, IView, ProductRequestC
                 CVUtils.preprocess(frame, dst);
                 CVUtils.flip(dst,frame);
                 //CVUtils.rotate_bound(dst,frame,180);
-                System.out.println((tessUtils.getMostProbableText(CVUtils.MatToBufferedImage(frame))));
+                DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+                Date bestBefore=tessUtils.getDate(CVUtils.MatToBufferedImage(frame));
+                Platform.runLater(()->{datePicker.setValue(bestBefore.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());});
+                System.out.println(df.format((bestBefore)));
 
             } catch (Throwable throwable){
                 System.out.println(throwable.getLocalizedMessage()+'\n');

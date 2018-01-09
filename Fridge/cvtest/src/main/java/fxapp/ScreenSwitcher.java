@@ -18,6 +18,7 @@ public class ScreenSwitcher {
     ActionChooserController actionChooserController;
     StartScreenController startScreenController;
     ProductListController productListController;
+    FruitScanController fruitScanController;
     public void setRootPane(AnchorPane rootPane) {
         this.rootPane = rootPane;
     }
@@ -37,7 +38,8 @@ public class ScreenSwitcher {
     enum Screens {
         CODE_CORRECTION("CodeCorrection.fxml"), ACTION_CHOOSER("ActionChooser.fxml"), START_SCREEN("StartScreen.fxml"),
         PRODUCT_LIST("ProductList.fxml"),
-        SCANNING_SCREEN("ScanningScreen.fxml");
+        SCANNING_SCREEN("ScanningScreen.fxml"),
+        FRUIT_SCAN("FruitScan.fxml");
         String filename;
 
         Screens(String filename) {
@@ -53,7 +55,7 @@ public class ScreenSwitcher {
         codeCorrectionController=(CodeCorrectionController) screens.get(Screens.CODE_CORRECTION);
         productListController=(ProductListController) screens.get(Screens.PRODUCT_LIST);
         actionChooserController=(ActionChooserController) screens.get(Screens.ACTION_CHOOSER);
-
+        fruitScanController=(FruitScanController) screens.get(Screens.FRUIT_SCAN);
     }
 
 

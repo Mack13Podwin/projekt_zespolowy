@@ -179,6 +179,10 @@ public class ScanningScreenController implements IScreen, IView, ProductRequestC
 
     }
 
+    public void scanFruitClicked(MouseEvent mouseEvent) {
+        screenSwitcher.switchToScreen(ScreenSwitcher.Screens.FRUIT_SCAN);
+    }
+
     enum ScanOperationType{
         NEW,OPEN,DELETE
     }

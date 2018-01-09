@@ -1,7 +1,6 @@
 package edu.team.programming.fridge.rest.ui;
 
 import edu.team.programming.fridge.ai.RatingCalculator;
-import edu.team.programming.fridge.ai.Recommender;
 import edu.team.programming.fridge.domain.Product;
 import edu.team.programming.fridge.domain.Rating;
 import edu.team.programming.fridge.domain.RatingAverage;
@@ -35,9 +34,6 @@ public class UIController {
     @Autowired
     private RatingsRepository ratingsRepository;
 
-    @Autowired
-    private Recommender recommender;
-
     @RequestMapping(value = "/inside/{fridgeId}", method = RequestMethod.GET)
     public List<Product> getProductsInFridge(@PathVariable String fridgeId){
         System.out.println("Getting products from fridge "+fridgeId);
@@ -52,20 +48,18 @@ public class UIController {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        List<Product> products=productRepository.findAll();
-        recommender.calculateRecommendations(products);
         return "OK\n";
     }
     @RequestMapping(value = "/shoppinglist/{fridgeId}", method = RequestMethod.GET)
     public List<Rating> getShoppingList(@PathVariable String fridgeId){
         RatingAverage average=ratingsRepository.aggregate(fridgeId).get(0);
-        List<Rating>ratings=recommender.getRatings(fridgeId);
+        List<Rating>ratings=
+                ratingsRepository.findByFridgeidAndRatingGreaterThanEqualOrderByRatingDesc(fridgeId,
+                        average.getAverage());
         List<Rating> result= new ArrayList<>();
         for (Rating rating:ratings){
             if(productRepository.findByFridgeidAndTypeAndRemovingdateIsNull(fridgeId,rating.getType()).size()==0){
-                if(!result.contains(rating)&&rating.getRating()>=average.getAverage()) {
-                    result.add(rating);
-                }
+                result.add(rating);
             }
         }
         return result;
@@ -75,13 +69,12 @@ public class UIController {
     public List<Product> getExpired(@PathVariable String fridgeId){
         return productRepository.findByFridgeidAndExpirationdateBeforeAndRemovingdateNotNull(fridgeId,new Date());
     }
-
     @RequestMapping(value = "/recipe/{fridgeId}", method=RequestMethod.GET)
     public List<String> getRecipe(@PathVariable String fridgeId)
     {
         List<Product> products = productRepository.findByFridgeid(fridgeId);
-        ArrayList<String> types = new ArrayList<>();
-        ArrayList<String> outputLines = new ArrayList<>();
+        ArrayList<String> types = new ArrayList<String>();
+        ArrayList<String> outputLines = new ArrayList<String>();
         for(Product product : products)
             types.add(product.getType());
         Random rand = new Random();
@@ -91,18 +84,37 @@ public class UIController {
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "application/json");
+
             if (conn.getResponseCode() != 200) {
                 throw new RuntimeException("Failed : HTTP error code : "
                         + conn.getResponseCode());
             }
+
             BufferedReader br = new BufferedReader(new InputStreamReader(
                     (conn.getInputStream())));
+
             String output;
+            boolean saveLine = false;
+            outputLines.add("{");
             while ((output = br.readLine()) != null) {
-                outputLines.add(output);
+                if (output.contains("hits"))
+                    saveLine=true;
+                if (output.contains("ingredients"))
+                    saveLine=false;
+                if(output.contains("ingredientLines"))
+                {
+                    int outLength = output.length();
+                    output = output.substring(0,outLength-1);
+                }
+                if(saveLine)
+                    outputLines.add(output);
             }
+            outputLines.add("}");
+
             conn.disconnect();
+
             return outputLines;
+
         } catch (IOException e) {
             e.printStackTrace();
         }

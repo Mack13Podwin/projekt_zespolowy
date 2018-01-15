@@ -1,6 +1,11 @@
-a{
-    color: rgb(62, 80, 92)
-}
 .nav > li > a:focus, .nav > li > a:hover{
     background-color: #fff1d4;
+}
+
+.ingredients-list{
+    list-style-type:disc;
+}
+
+.receipe-link{
+    color:#337ab7;
 }

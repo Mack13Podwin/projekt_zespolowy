@@ -6,10 +6,13 @@ import edu.team.programming.fridge.domain.PredictedRating;
 import edu.team.programming.fridge.domain.Product;
 import edu.team.programming.fridge.domain.Rating;
 import edu.team.programming.fridge.domain.RatingAverage;
+import edu.team.programming.fridge.exception.RecipeNotFoundException;
 import edu.team.programming.fridge.infrastructure.db.PredictedRatingsRepository;
 import edu.team.programming.fridge.infrastructure.db.ProductRepository;
 import edu.team.programming.fridge.infrastructure.db.RatingsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,14 +23,19 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value="/ui")
 public class UIController {
+
+    @Value("${recipes.api.key}")
+    private String apiKey;
+
+    @Value("${recipes.app.id}")
+    private String appId;
+
     @Autowired
     private ProductRepository productRepository;
 
@@ -77,17 +85,16 @@ public class UIController {
         return productRepository.findByFridgeidAndExpirationdateBeforeAndRemovingdateNotNull(fridgeId,new Date());
     }
     @RequestMapping(value = "/recipe/{fridgeId}", method=RequestMethod.GET)
-    public List<String> getRecipe(@PathVariable String fridgeId)
-    {
+    public String getRecipe(@PathVariable String fridgeId) throws RecipeNotFoundException {
         List<Product> products = productRepository.findByFridgeid(fridgeId);
-        ArrayList<String> types = new ArrayList<String>();
-        ArrayList<String> outputLines = new ArrayList<String>();
+        ArrayList<String> types = new ArrayList<>();
+        ArrayList<String> outputLines = new ArrayList<>();
         for(Product product : products)
             types.add(product.getType());
         Random rand = new Random();
         String ing = types.get(rand.nextInt(types.size()));
         try {
-            URL url = new URL("https://api.edamam.com/search?q=" + ing + "&app_id=996b3dbc&app_key=c510d40f64b5a45bd6b2baaa13aa5a2f&from=0&to=1");
+            URL url = new URL("https://api.edamam.com/search?q=" + ing + "&app_id="+appId+"&app_key="+apiKey+"&from=0&to=1");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "application/json");
@@ -117,15 +124,29 @@ public class UIController {
                     outputLines.add(output);
             }
             outputLines.add("}");
+            outputLines.add("}");
+            outputLines.add("]");
+            outputLines.add("}");
+
+            StringBuilder builder = new StringBuilder();
+
+            for (String string : outputLines) {
+                if (builder.length() > 0) {
+                    builder.append("\n");
+                }
+                builder.append(string);
+            }
 
             conn.disconnect();
 
-            return outputLines;
+            return builder.toString();
 
         } catch (IOException e) {
             e.printStackTrace();
+        }catch(RuntimeException ex){
+            ex.printStackTrace();
+            throw new RecipeNotFoundException();
         }
-        outputLines.add("Error");
-        return outputLines;
+        return "";
     }
 }

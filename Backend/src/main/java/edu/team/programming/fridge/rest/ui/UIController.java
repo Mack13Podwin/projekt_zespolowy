@@ -1,9 +1,12 @@
 package edu.team.programming.fridge.rest.ui;
 
 import edu.team.programming.fridge.ai.RatingCalculator;
+import edu.team.programming.fridge.ai.Recommender;
+import edu.team.programming.fridge.domain.PredictedRating;
 import edu.team.programming.fridge.domain.Product;
 import edu.team.programming.fridge.domain.Rating;
 import edu.team.programming.fridge.domain.RatingAverage;
+import edu.team.programming.fridge.infrastructure.db.PredictedRatingsRepository;
 import edu.team.programming.fridge.infrastructure.db.ProductRepository;
 import edu.team.programming.fridge.infrastructure.db.RatingsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +35,10 @@ public class UIController {
     private RatingCalculator ratingCalculator;
 
     @Autowired
-    private RatingsRepository ratingsRepository;
+    private Recommender recommender;
+
+    @Autowired
+    private PredictedRatingsRepository predictedRatingsRepository;
 
     @RequestMapping(value = "/inside/{fridgeId}", method = RequestMethod.GET)
     public List<Product> getProductsInFridge(@PathVariable String fridgeId){
@@ -48,18 +54,19 @@ public class UIController {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        List<Product> products=productRepository.findAll();
+        recommender.calculateRecommendations(products);
         return "OK\n";
     }
     @RequestMapping(value = "/shoppinglist/{fridgeId}", method = RequestMethod.GET)
-    public List<Rating> getShoppingList(@PathVariable String fridgeId){
-        RatingAverage average=ratingsRepository.aggregate(fridgeId).get(0);
-        List<Rating>ratings=
-                ratingsRepository.findByFridgeidAndRatingGreaterThanEqualOrderByRatingDesc(fridgeId,
-                        average.getAverage());
-        List<Rating> result= new ArrayList<>();
-        for (Rating rating:ratings){
+    public List<PredictedRating> getShoppingList(@PathVariable String fridgeId){
+        List<PredictedRating>ratings= predictedRatingsRepository.findByFridgeidOrderByRatingDesc(fridgeId);
+        List<PredictedRating> result= new ArrayList<>();
+        for (PredictedRating rating:ratings){
             if(productRepository.findByFridgeidAndTypeAndRemovingdateIsNull(fridgeId,rating.getType()).size()==0){
-                result.add(rating);
+                if(!result.contains(rating)&&rating.getRating()>=0.0) {
+                    result.add(rating);
+                }
             }
         }
         return result;

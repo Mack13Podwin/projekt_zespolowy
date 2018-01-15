@@ -1,7 +1,9 @@
 package edu.team.programming.fridge.ai;
 
+import edu.team.programming.fridge.domain.PredictedRating;
 import edu.team.programming.fridge.domain.Product;
 import edu.team.programming.fridge.domain.Rating;
+import edu.team.programming.fridge.infrastructure.db.PredictedRatingsRepository;
 import edu.team.programming.fridge.infrastructure.db.RatingsRepository;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,9 @@ public class Recommender {
 
     @Autowired
     private RatingsRepository ratingsRepository;
+    @Autowired
+    private PredictedRatingsRepository predictedRatingsRepository;
+
     private Map<String,Map<String,Double>> diff=new HashMap<>();
     private Map<String,Map<String,Integer>> freq=new HashMap<>();
     @Getter
@@ -40,19 +45,21 @@ public class Recommender {
         }
         buildDifferencesMatrix(data);
         predict(data);
+        getRatings();
     }
 
-    public List<Rating>getRatings(String fridgeid){
-        List<Rating> ratings=new ArrayList<>();
-        for (String type: outputData.get(fridgeid).keySet()){
-            Rating rating=Rating.builder()
-                    .fridgeid(fridgeid)
-                    .type(type)
-                    .rating(outputData.get(fridgeid).get(type))
-                    .build();
-            ratings.add(rating);
+    private void getRatings(){
+        predictedRatingsRepository.deleteAll();
+        for (String fridgeid: outputData.keySet()){
+            for(String type:outputData.get(fridgeid).keySet()) {
+                PredictedRating predictedRating = PredictedRating.builder()
+                        .fridgeid(fridgeid)
+                        .type(type)
+                        .rating(outputData.get(fridgeid).get(type))
+                        .build();
+                predictedRatingsRepository.save(predictedRating);
+            }
         }
-        return ratings;
     }
 
     private void buildDifferencesMatrix(HashMap<String,HashMap<String,Double>> data){

@@ -7,6 +7,5 @@ import java.util.List;
 
 
 public interface RatingsRepository extends MongoRepository<Rating,String>,RatingsRepositoryCustom {
-       List<Rating> findByFridgeidAndType(String fridgeid, String type);
-       List<Rating> findAll();
+    List<Rating> findByFridgeidAndType(String fridgeid, String type);
 }

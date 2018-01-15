@@ -37,8 +37,8 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
-      <ChoiceBox fx:id="scanFruit"  layoutX="39.0" layoutY="83.0" prefHeight="25.0" prefWidth="156.0" />
-      <Button onMouseClicked="#scanClick" layoutX="35.0" layoutY="218.0" mnemonicParsing="false" prefHeight="92.0" prefWidth="156.0" styleClass="button-big" stylesheets="@style.css" text="SCAN FRUIT">
+      <ChoiceBox   layoutX="39.0" layoutY="83.0" prefHeight="25.0" prefWidth="156.0" />
+      <Button onMouseClicked="#scanClick" fx:id="scanFruit" layoutX="35.0" layoutY="218.0" mnemonicParsing="false" prefHeight="92.0" prefWidth="156.0" styleClass="button-big" stylesheets="@style.css" text="SCAN FRUIT">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>

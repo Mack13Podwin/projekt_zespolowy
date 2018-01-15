@@ -244,7 +244,10 @@ public class ScanningScreenController implements IScreen, IView, ProductRequestC
         previewFuture=this.timer.scheduleAtFixedRate(frameGrabber, 0, 33, TimeUnit.MILLISECONDS);
     }
 
-
+    public void newRequest(MouseEvent mouseEvent) {
+        onScreenExit();
+        screenSwitcher.switchToScreen(ScreenSwitcher.Screens.NEW_PRODUCT_REQUEST);
+    }
     public void cancelClicked(MouseEvent mouseEvent) {
         screenSwitcher.switchToScreen(ScreenSwitcher.Screens.ACTION_CHOOSER);
 

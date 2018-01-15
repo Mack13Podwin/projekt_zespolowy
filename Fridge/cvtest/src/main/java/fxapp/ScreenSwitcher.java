@@ -19,6 +19,13 @@ public class ScreenSwitcher {
     StartScreenController startScreenController;
     ProductListController productListController;
     FruitScanController fruitScanController;
+    NewProductRequestScreen newProductRequestScreen;
+    public ScanningScreenController.ScanOperationType getOperationType(){
+        return scanningScreenController.getOperationType();
+    }
+    public String getCurrentBarcode(){
+        return scanningScreenController.getCurrent();
+    }
     public void setRootPane(AnchorPane rootPane) {
         this.rootPane = rootPane;
     }
@@ -39,7 +46,8 @@ public class ScreenSwitcher {
         CODE_CORRECTION("CodeCorrection.fxml"), ACTION_CHOOSER("ActionChooser.fxml"), START_SCREEN("StartScreen.fxml"),
         PRODUCT_LIST("ProductList.fxml"),
         SCANNING_SCREEN("ScanningScreen.fxml"),
-        FRUIT_SCAN("FruitScan.fxml");
+        FRUIT_SCAN("FruitScan.fxml"),
+        NEW_PRODUCT_REQUEST("NewProductRequest.fxml");
         String filename;
 
         Screens(String filename) {
@@ -56,6 +64,7 @@ public class ScreenSwitcher {
         productListController=(ProductListController) screens.get(Screens.PRODUCT_LIST);
         actionChooserController=(ActionChooserController) screens.get(Screens.ACTION_CHOOSER);
         fruitScanController=(FruitScanController) screens.get(Screens.FRUIT_SCAN);
+        newProductRequestScreen=(NewProductRequestScreen)screens.get(Screens.NEW_PRODUCT_REQUEST);
     }
 
 

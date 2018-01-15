@@ -35,6 +35,7 @@ public class FXApp extends Application {
         screenSwitcher.loadScreens();
         screenSwitcher.setRootPane(rootLayout);
         screenSwitcher.switchToScreen(ScreenSwitcher.Screens.START_SCREEN);
+        NewProductRequestScreen productRequestScreen=new NewProductRequestScreen();
     }
 
 

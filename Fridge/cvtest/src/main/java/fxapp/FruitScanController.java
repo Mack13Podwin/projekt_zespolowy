@@ -32,21 +32,23 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.time.ZoneId;
+import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+
 import org.apache.http.entity.mime.MultipartEntityBuilder;
-public class FruitScanController implements IScreen{
-    ArrayList<String> fruits=new ArrayList<>(Arrays.asList("banana","mandarin","apple", "grapefruit", "lemon", "orange"));
+import tools.http.*;
+
+public class FruitScanController implements IScreen, FruitRequestCallback,ProductRequestCallback {
+    public static ArrayList<String> fruits = new ArrayList<>(Arrays.asList("banana", "mandarin", "apple", "grapefruit", "orange", "lemon", "kiwi"));
+    String currentFruit = null;
     @FXML
     private AnchorPane content;
     @FXML
-    private  ChoiceBox scanFruit;
+    private Button scanFruit;
     @FXML
     private Button nextButton;
     @FXML
@@ -57,16 +59,17 @@ public class FruitScanController implements IScreen{
     private DatePicker datePicker;
     @FXML
     private ImageView scanningPreview;
-    private Camera cam= CameraFactory.getInstance();
+    private Camera cam = CameraFactory.getInstance();
     private ScheduledExecutorService timer;
     private ScreenSwitcher screenSwitcher;
+    Alert alert;
 
     @Override
     public void onScreenExit() {
-        if(previewFuture!=null){
+        if (previewFuture != null) {
             previewFuture.cancel(false);
         }
-        previewFuture=null;
+        previewFuture = null;
     }
 
     @Override
@@ -76,7 +79,7 @@ public class FruitScanController implements IScreen{
 
     @Override
     public void setScreenSwitcher(ScreenSwitcher switcher) {
-        screenSwitcher=switcher;
+        screenSwitcher = switcher;
     }
 
     @Override
@@ -89,27 +92,49 @@ public class FruitScanController implements IScreen{
     }
 
     public void nextClicked(MouseEvent mouseEvent) {
+        Date date=Date.from(datePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Product product=new Product(currentFruit,date);
+        nextButton.setDisable(true);
+        ProductRequest productRequest=null;
+        switch (screenSwitcher.getOperationType()){
+            case NEW:
+                productRequest = new ProductRequest(product,this, ProductRequest.RequestTypes.NEW);
+            break;
+            case DELETE:
+                productRequest = new ProductRequest(product,this, ProductRequest.RequestTypes.DELETE);
+                break;
+            case OPEN:
+                productRequest = new ProductRequest(product,this, ProductRequest.RequestTypes.OPEN);
+                break;
+        }
+        productRequest.start();
+        alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information Dialog");
+        alert.setHeaderText(null);
+        alert.getButtonTypes().clear();
+        alert.setContentText("Processing product");
+        alert.show();
     }
 
-    public void initialize(){
-        LocalDate date=LocalDate.now().plusDays(1);
+    public void initialize() {
+        LocalDate date = LocalDate.now().plusDays(1);
         datePicker.setValue(date);
     }
 
-    ScheduledFuture<?> previewFuture=null;
-    public void startPreview(){
+    ScheduledFuture<?> previewFuture = null;
+
+    public void startPreview() {
 
         Runnable frameGrabber = new Runnable() {
 
             @Override
-            public void run()
-            {
+            public void run() {
                 // effectively grab and process a single frame
-                Mat frame=new Mat();
-                Mat dst=new Mat();
+                Mat frame = new Mat();
+                Mat dst = new Mat();
                 cam.captureFrame(frame);
                 // convert and show the frame
-                final Image FXimg= CVUtils.MatToFXImage(frame);
+                final Image FXimg = CVUtils.MatToFXImage(frame);
                 Platform.runLater(() -> scanningPreview.setImage(FXimg));
                 frame.release();
                 dst.release();
@@ -117,78 +142,72 @@ public class FruitScanController implements IScreen{
         };
 
         this.timer = Executors.newSingleThreadScheduledExecutor();
-        previewFuture=this.timer.scheduleAtFixedRate(frameGrabber, 0, 33, TimeUnit.MILLISECONDS);
+        previewFuture = this.timer.scheduleAtFixedRate(frameGrabber, 0, 33, TimeUnit.MILLISECONDS);
     }
 
 
     public void scanClick(MouseEvent mouseEvent) {
-        Mat frame=new Mat();
-        Mat dst=new Mat();
+        scanFruit.setDisable(true);
+        Mat frame = new Mat();
+        Mat dst = new Mat();
         cam.captureFrame(frame);
-        BufferedImage buf=CVUtils.MatToBufferedImage(frame);
+        BufferedImage buf = CVUtils.MatToBufferedImage(frame);
         frame.release();
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        try {
-            ImageIO.write(buf, "png", stream);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        List<Header> defaultHeaders = Arrays.asList(
-                new BasicHeader("Authorization", ""));
-        HttpClient httpClient = HttpClientBuilder.create().setDefaultHeaders(defaultHeaders).build();
-        HttpPost httpPost=new HttpPost("https://api.imagga.com/v1/content");
-        MultipartEntityBuilder multiPartEntityBuilder = MultipartEntityBuilder.create();
-        multiPartEntityBuilder.addBinaryBody("Picture", stream.toByteArray(), ContentType.create("image/png"), "image.png");
-        httpPost.setEntity(multiPartEntityBuilder.build());
-        String id="";
-        try {
-            System.out.println("sending post request");
-            HttpResponse response = httpClient.execute(httpPost);
-            System.out.println((response.getStatusLine().getStatusCode()));
-            String responseString = null;
-            responseString = EntityUtils.toString(response.getEntity(), "UTF-8");
-            System.out.println("response: " + responseString);
-            Gson gson=new Gson();
-            JsonObject jsonObject=gson.fromJson(responseString, JsonObject.class);
-            JsonArray jsonArray=jsonObject.getAsJsonArray("uploaded");
-            JsonElement jsonElement=jsonArray.get(0);
-            id=((JsonObject)jsonElement).get("id").getAsString();
-            System.out.println(id);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        HttpGet httpGet=new HttpGet("https://api.imagga.com/v1/tagging?content="+id);
-        try {
+        FruitRequest fruitRequest = new FruitRequest(buf, this);
+        alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information Dialog");
+        alert.setHeaderText(null);
+        alert.getButtonTypes().clear();
+        alert.setContentText("Processing fruit");
+        alert.show();
+        fruitRequest.start();
+    }
 
-            System.out.println("sending get request");
-            HttpResponse response = httpClient.execute(httpGet);
-            System.out.println((response.getStatusLine().getStatusCode()));
-            String responseString = null;
-            responseString = EntityUtils.toString(response.getEntity(), "UTF-8");
-            System.out.println("response: " + responseString);
-            Gson gson=new Gson();
-            JsonObject jsonObject=gson.fromJson(responseString, JsonObject.class);
-            JsonArray jsonArray=jsonObject.getAsJsonArray("results");
-            JsonElement jsonElement=jsonArray.get(0);
-            JsonArray tags=((JsonObject)jsonElement).getAsJsonArray("tags");
-            for(JsonElement tag:tags){
-                String tagname=((JsonObject)tag).get("tag").getAsString();
-                if(fruits.indexOf(tagname)!=-1){
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Information Dialog");
-                    alert.setHeaderText(null);
-                    alert.getButtonTypes().clear();
-                    alert.setContentText("Found: "+tagname);
-                    alert.show();
-                    Thread.sleep(3000);
-                    Platform.runLater(()->((Stage) alert.getDialogPane().getScene().getWindow()).close());
-                    break;
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+    //if error true then error description is passed as fruitName
+    @Override
+    public void fruitRequestCallback(boolean error, String fruitName) {
+        Platform.runLater(() -> ((Stage) alert.getDialogPane().getScene().getWindow()).close());
+        Platform.runLater(()->{
+            alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information Dialog");
+            alert.setHeaderText(null);
+            alert.getButtonTypes().clear();
+        }
+        );
+        Platform.runLater(()->scanFruit.setDisable(false));
+        if (error) {
+            Platform.runLater(() -> alert.setContentText("Error: " + fruitName));
+        } else {
+            Platform.runLater(() -> alert.setContentText("Found: " + fruitName));
+            currentFruit=fruitName;
+        }
+        Platform.runLater(() -> alert.show());
+        try {
+            Thread.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        Platform.runLater(() -> ((Stage) alert.getDialogPane().getScene().getWindow()).close());
+    }
+
+    @Override
+    public void requestCallback(int statusCode, String response) {
+        Platform.runLater(() -> ((Stage) alert.getDialogPane().getScene().getWindow()).close());
+        Platform.runLater(()->nextButton.setDisable(false));
+        Gson gson = new Gson();
+        Response resp= gson.fromJson(response,Response.class);
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information Dialog");
+            alert.setHeaderText(null);
+            //alert.getButtonTypes().clear();
+            if(statusCode==200){
+                String text="Product: "+((resp!=null)?resp.name:"")+" successfully processed";
+                alert.setContentText(text);
+            } else {
+                alert.setContentText("Error was encountered during processing product, code:"+statusCode+" message:"+response);
+            }
+            alert.showAndWait();
+        });
     }
 }

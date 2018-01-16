@@ -15,7 +15,7 @@
         vm.submit=submit;
         //////////////////////////
         function submit(){
-            $http({method: 'POST', url: 'backend/users/email', headers: {'authorization': loginService.getUserToken()}, data: vm.user.email})
+            $http({method: 'POST', url: 'backend/users/email', data: vm.user.email})
                 .then(function(response){
                     messageService.success("E-mail successfully changed");
                     loginService.firstLogin();

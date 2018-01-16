@@ -1,30 +1,28 @@
 package edu.team.programming.fridge.rest.ui;
 
+import edu.team.programming.fridge.AuthorizationService;
 import edu.team.programming.fridge.ai.RatingCalculator;
 import edu.team.programming.fridge.ai.Recommender;
 import edu.team.programming.fridge.domain.PredictedRating;
 import edu.team.programming.fridge.domain.Product;
-import edu.team.programming.fridge.domain.Rating;
-import edu.team.programming.fridge.domain.RatingAverage;
+import edu.team.programming.fridge.domain.User;
+import edu.team.programming.fridge.exception.AuthorizationException;
 import edu.team.programming.fridge.exception.RecipeNotFoundException;
 import edu.team.programming.fridge.infrastructure.db.PredictedRatingsRepository;
 import edu.team.programming.fridge.infrastructure.db.ProductRepository;
-import edu.team.programming.fridge.infrastructure.db.RatingsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
 
 @RestController
 @RequestMapping(value="/ui")
@@ -48,8 +46,16 @@ public class UIController {
     @Autowired
     private PredictedRatingsRepository predictedRatingsRepository;
 
-    @RequestMapping(value = "/inside/{fridgeId}", method = RequestMethod.GET)
-    public List<Product> getProductsInFridge(@PathVariable String fridgeId){
+    @Autowired
+    private AuthorizationService authorizationService;
+
+    @RequestMapping(value = "/inside", method = RequestMethod.GET)
+    public List<Product> getProductsInFridge(@RequestHeader(name="authorization") String token) throws AuthorizationException {
+        User user=authorizationService.authorizeUser(token);
+        if(user==null) {
+            throw new AuthorizationException();
+        }
+        String fridgeId=user.getFridgeid();
         System.out.println("Getting products from fridge "+fridgeId);
         return productRepository.findByFridgeidAndRemovingdateIsNull(fridgeId);
     }
@@ -66,9 +72,14 @@ public class UIController {
         recommender.calculateRecommendations(products);
         return "OK\n";
     }
-    @RequestMapping(value = "/shoppinglist/{fridgeId}", method = RequestMethod.GET)
-    public List<PredictedRating> getShoppingList(@PathVariable String fridgeId){
-        List<PredictedRating>ratings= predictedRatingsRepository.findByFridgeidOrderByRatingDesc(fridgeId);
+    @RequestMapping(value = "/shoppinglist", method = RequestMethod.GET)
+    public List<PredictedRating> getShoppingList(@RequestHeader(name="authorization") String token) throws AuthorizationException {
+        User user=authorizationService.authorizeUser(token);
+        if(user==null) {
+            throw new AuthorizationException();
+        }
+        String fridgeId=user.getFridgeid();
+        List<PredictedRating> ratings= predictedRatingsRepository.findByFridgeidOrderByRatingDesc(fridgeId);
         List<PredictedRating> result= new ArrayList<>();
         for (PredictedRating rating:ratings){
             if(productRepository.findByFridgeidAndTypeAndRemovingdateIsNull(fridgeId,rating.getType()).size()==0){
@@ -80,12 +91,22 @@ public class UIController {
         return result;
     }
 
-    @RequestMapping(value = "/expired/{fridgeId}", method=RequestMethod.POST)
-    public List<Product> getExpired(@PathVariable String fridgeId){
+    @RequestMapping(value = "/expired", method=RequestMethod.POST)
+    public List<Product> getExpired(@RequestHeader(name="authorization") String token) throws AuthorizationException {
+        User user=authorizationService.authorizeUser(token);
+        if(user==null) {
+            throw new AuthorizationException();
+        }
+        String fridgeId=user.getFridgeid();
         return productRepository.findByFridgeidAndExpirationdateBeforeAndRemovingdateNotNull(fridgeId,new Date());
     }
-    @RequestMapping(value = "/recipe/{fridgeId}", method=RequestMethod.GET)
-    public String getRecipe(@PathVariable String fridgeId) throws RecipeNotFoundException {
+    @RequestMapping(value = "/recipe", method=RequestMethod.GET)
+    public String getRecipe(@RequestHeader(name="authorization") String token) throws RecipeNotFoundException, AuthorizationException {
+        User user=authorizationService.authorizeUser(token);
+        if(user==null) {
+            throw new AuthorizationException();
+        }
+        String fridgeId=user.getFridgeid();
         List<Product> products = productRepository.findByFridgeid(fridgeId);
         ArrayList<String> types = new ArrayList<>();
         ArrayList<String> outputLines = new ArrayList<>();

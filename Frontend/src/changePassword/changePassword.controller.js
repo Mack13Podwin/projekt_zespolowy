@@ -22,7 +22,7 @@
         function init(){ }
         function submit(){
             if(vm.user.newpassword==vm.repeatnewpassword){
-                $http({method: 'PATCH', url: 'backend/users/password/change', headers: {'authorization': loginService.getUserToken()}, data: vm.user})
+                $http({method: 'PATCH', url: 'backend/users/password/change', data: vm.user})
                     .then(function(response){
                         messageService.success("Your password was successfully changed!");
                         $location.path('/home');

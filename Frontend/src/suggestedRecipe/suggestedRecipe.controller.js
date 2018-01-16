@@ -14,7 +14,7 @@
         
         //////////////////////////////
         function init(){
-            $http.get('backend/ui/recipe/'+loginService.getUserFridgeId())
+            $http.get('backend/ui/recipe')
                 .then(response=>{
                     console.log(response.data.hits[0].recipe);
                     vm.recipes.push(response.data.hits[0].recipe);
@@ -23,7 +23,7 @@
                     console.log(err);
                     messageService.error('Unfortunately, the recipe cannot be loaded');
                 });
-            $http.get('backend/ui/recipe/'+loginService.getUserFridgeId())
+            $http.get('backend/ui/recipe')
                 .then(response=>{
                     console.log(response.data.hits[0].recipe);
                     vm.recipes.push(response.data.hits[0].recipe);
@@ -31,7 +31,7 @@
                     console.log(err);
                     messageService.error('Unfortunately, the recipe cannot be loaded');
                 });
-            $http.get('backend/ui/recipe/'+loginService.getUserFridgeId())
+            $http.get('backend/ui/recipe')
                 .then(response=>{
                     console.log(response.data.hits[0].recipe);
                     vm.recipes.push(response.data.hits[0].recipe);

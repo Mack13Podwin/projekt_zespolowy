@@ -20,7 +20,7 @@
         
         function init(){ }
         function submit(){
-            $http({method: 'PATCH', url: 'backend/users/login/change', headers: {'authorization': loginService.getUserToken()}, data: vm.user})
+            $http({method: 'PATCH', url: 'backend/users/login/change', data: vm.user})
                 .then(function(response){
                     messageService.success("Login was successfully changed");
                     $location.path('home');

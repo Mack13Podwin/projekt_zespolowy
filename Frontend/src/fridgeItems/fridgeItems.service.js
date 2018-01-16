@@ -14,7 +14,7 @@
         return service;
 
         function getProductsInFridge(){
-            return $http.get('/backend/ui/inside/'+loginService.getUserFridgeId());
+            return $http.get('/backend/ui/inside');
         }
     }
 
